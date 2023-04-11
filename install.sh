@@ -22,5 +22,6 @@ packages() {
   apt install exa
 }
 
+
 packages
 zshrc
