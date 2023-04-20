@@ -25,4 +25,5 @@ packages() {
 
 packages
 zshrc
+mv ~/.p10k.zsh.new ~/.p10k.zsh
 source ~/.p10k.zsh
