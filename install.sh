@@ -25,3 +25,4 @@ packages() {
 
 packages
 zshrc
+source ~/.p10k.zsh
