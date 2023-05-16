@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 zshrc() {
   echo "==========================================================="
@@ -27,4 +27,4 @@ packages
 zshrc
 sudo mv ~/.p10k.zsh.new ~/.p10k.zsh
 # ~/.p10k.zsh
-source ~/.zshrc
+. ~/.zshrc
