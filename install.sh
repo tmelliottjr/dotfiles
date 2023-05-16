@@ -26,4 +26,5 @@ packages() {
 packages
 zshrc
 sudo mv ~/.p10k.zsh.new ~/.p10k.zsh
-source ~/.p10k.zsh
+# ~/.p10k.zsh
+source ~/.zshrc
