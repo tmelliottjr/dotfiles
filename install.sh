@@ -19,11 +19,11 @@ packages() {
   echo "==========================================================="
   echo "                  Install Exa                              "
   echo "-----------------------------------------------------------"
-  apt install exa
+  sudo apt install exa
 }
 
 
 packages
 zshrc
-mv ~/.p10k.zsh.new ~/.p10k.zsh
+sudo mv ~/.p10k.zsh.new ~/.p10k.zsh
 source ~/.p10k.zsh
