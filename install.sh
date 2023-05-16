@@ -12,7 +12,11 @@ zshrc() {
   echo "==========================================================="
   echo "                  Import zshrc                             "
   echo "-----------------------------------------------------------"
-  cat .zshrc >$HOME/.zshrc
+  cat .zshrc > $HOME/.zshrc
+  echo "==========================================================="
+  echo "             import powerlevel10k                          "
+  echo "-----------------------------------------------------------"
+  cat .p10k.zsh > $HOME/.p10k.zsh
 }
 
 packages() {
@@ -22,9 +26,5 @@ packages() {
   sudo apt install exa
 }
 
-
-packages
 zshrc
-sudo mv ~/.p10k.zsh.new ~/.p10k.zsh
-# ~/.p10k.zsh
-. ~/.zshrc
+packages
