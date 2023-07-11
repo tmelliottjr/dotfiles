@@ -28,3 +28,6 @@ packages() {
 
 zshrc
 packages
+
+# Setup auto tracking of branches
+git config --global --add --bool push.autoSetupRemote true
