@@ -117,3 +117,7 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 alias el="exa --long --icons --tree --level=1 --header"
+
+# Set default git editor
+export GIT_EDITOR=vim
+export VISUAL=vim
