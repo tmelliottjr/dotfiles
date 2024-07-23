@@ -31,3 +31,7 @@ packages
 
 # Setup auto tracking of branches
 git config --global --add --bool push.autoSetupRemote true
+
+# Set default git editor
+export GIT_EDITOR=vim
+export VISUAL=vim
