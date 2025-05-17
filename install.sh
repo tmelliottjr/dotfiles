@@ -13,7 +13,6 @@ zshrc() {
   echo "              Setup Starship config                        "
   echo "-----------------------------------------------------------"
   mkdir -p $HOME/.config
-  cat starship.toml >$HOME/.config/starship.toml
 }
 
 install_starship() {
