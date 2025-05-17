@@ -53,23 +53,61 @@ packages() {
 
   if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
-    brew install exa
+    brew install eza
   elif [ -x "$(command -v apt)" ]; then
     # Debian/Ubuntu
-    sudo apt-get install -y exa
+    echo "Setting up eza repository for Debian/Ubuntu..."
+    sudo mkdir -p /etc/apt/keyrings
+    wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+    sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+    sudo apt update
+    sudo apt install -y eza
   elif [ -x "$(command -v dnf)" ]; then
     # Fedora
-    sudo dnf install -y exa
+    sudo dnf install -y eza
   elif [ -x "$(command -v pacman)" ]; then
     # Arch
-    sudo pacman -S --noconfirm exa
+    sudo pacman -S --noconfirm eza
   else
-    echo "Could not install packages: Unsupported package manager"
+    echo "Attempting to install eza via cargo..."
+    if
+      command -v cargo &
+      >/dev/null
+    then
+      cargo install eza
+    else
+      echo "Could not install eza: Unsupported package manager and cargo not found"
+      echo "Please install eza manually: https://eza.rocks/"
+    fi
+  fi
+}
+
+# Configure starship with jetpack preset
+configure_starship() {
+  echo "==========================================================="
+  echo "         Setting up Starship with Jetpack preset           "
+  echo "-----------------------------------------------------------"
+  mkdir -p $HOME/.config
+
+  # Check if starship is installed before applying the preset
+  if
+    command -v starship &
+    >/dev/null
+  then
+    # Download and apply the Jetpack preset directly
+    echo "Downloading Jetpack preset for Starship..."
+    curl -sS https://starship.rs/presets/toml/jetpack.toml >$HOME/.config/starship.toml
+    echo "Jetpack preset for Starship has been applied"
+  else
+    echo "Starship not found. Will attempt to install it first."
+    # The starship installation function will be called before this anyway
   fi
 }
 
 # Install components
 install_starship
+configure_starship
 install_fabulous
 zshrc
 packages

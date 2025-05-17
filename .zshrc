@@ -31,11 +31,11 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 # Aliases
-alias ls='exa --color=auto'
-alias ll='exa -alF'
-alias la='exa -a'
-alias l='exa -F'
-alias lt='exa --tree'
+alias ls='eza --color=auto'
+alias ll='eza -alF'
+alias la='eza -a'
+alias l='eza -F'
+alias lt='eza --tree'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
