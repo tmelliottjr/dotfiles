@@ -85,23 +85,10 @@ packages() {
 # Configure starship with jetpack preset
 configure_starship() {
   echo "==========================================================="
-  echo "         Setting up Starship with Jetpack preset           "
+  echo "                  Setting up Starship                      "
   echo "-----------------------------------------------------------"
   mkdir -p $HOME/.config
-
-  # Check if starship is installed before applying the preset
-  if
-    command -v starship &
-    >/dev/null
-  then
-    # Download and apply the Jetpack preset directly
-    echo "Downloading Jetpack preset for Starship..."
-    curl -sS https://starship.rs/presets/toml/jetpack.toml >$HOME/.config/starship.toml
-    echo "Jetpack preset for Starship has been applied"
-  else
-    echo "Starship not found. Will attempt to install it first."
-    # The starship installation function will be called before this anyway
-  fi
+  cat starship.toml >$HOME/.config/starship.toml
 }
 
 # Install components
