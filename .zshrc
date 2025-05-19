@@ -16,7 +16,7 @@ plugins=(git zsh-nvm)
 eval "$(starship init zsh)"
 
 # Aliases
-alias ls='eza --color=auto'
+alias ls='eza --color=auto --icons'
 alias ll='eza -alF'
 alias la='eza -a'
 alias l='eza -F'

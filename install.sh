@@ -9,17 +9,21 @@ zshrc() {
   echo "                  Import zshrc                             "
   echo "-----------------------------------------------------------"
   cat .zshrc >$HOME/.zshrc
-  echo "==========================================================="
-  echo "              Setup Starship config                        "
-  echo "-----------------------------------------------------------"
-  mkdir -p $HOME/.config
 }
 
 install_starship() {
   echo "==========================================================="
   echo "              Installing Starship                          "
   echo "-----------------------------------------------------------"
-  # Use the official installer script with -y flag for non-interactive install
+  # Only install if not already installed
+  if
+    command -v starship &
+    >/dev/null
+  then
+    echo "Starship is already installed"
+    return
+  fi
+
   curl -sS https://starship.rs/install.sh | sh -s -- -y
 }
 
