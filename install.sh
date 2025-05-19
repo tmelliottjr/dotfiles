@@ -20,33 +20,12 @@ install_starship() {
     command -v starship &
     >/dev/null
   then
-    echo "Starship is already installed"
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
     return
-  fi
-
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
-}
-
-install_fabulous() {
-  echo "==========================================================="
-  echo "               Installing fabulous                         "
-  echo "-----------------------------------------------------------"
-
-  # Install fabulous using pip with --yes flag for non-interactive install
-  if
-    command -v pip3 &
-    >/dev/null
-  then
-    pip3 install --yes fabulous
-  elif
-    command -v pip &
-    >/dev/null
-  then
-    pip install --yes fabulous
   else
-    echo "Could not install fabulous: pip not found"
-    echo "Please install pip and try again"
+    echo "Starship is already installed"
   fi
+
 }
 
 packages() {
@@ -98,7 +77,6 @@ configure_starship() {
 # Install components
 install_starship
 configure_starship
-install_fabulous
 zshrc
 packages
 
