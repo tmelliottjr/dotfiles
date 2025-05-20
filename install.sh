@@ -20,7 +20,8 @@ install_starship() {
     command -v starship &
     >/dev/null
   then
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes
+    sudo chsh -s /bin/zsh $(whoami)
     return
   else
     echo "Starship is already installed"
