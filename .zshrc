@@ -46,3 +46,4 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Reload shell
 alias reload='source ~/.zshrc'
+alias new-cs='!export CODESPACE_ID="$(gh cs create -R github/github -b master --devcontainer-path .devcontainer/devcontainer.json -m largePremiumLinux | tail -1)"; gh cs code -c $CODESPACE_ID; echo "Started Codespace $CODESPACE_ID"'
