@@ -10,20 +10,10 @@ $directory\
 $git_branch\
 $git_status\
 [](fg:yellow bg:green)\
-$c\
-$rust\
-$golang\
-$nodejs\
-$php\
-$java\
-$kotlin\
-$haskell\
-$python\
-[](fg:green bg:sapphire)\
 $time\
-[](fg:sapphire bg:lavender)\
+[](fg:green bg:sapphire)\
 $cmd_duration\
-[ ](fg:lavender)\
+[ ](fg:sapphire)\
 $line_break\
 $line_break\
 $character"""
@@ -142,8 +132,8 @@ ignore_base = false
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:sapphire"
-format = '[[  $time ](fg:crust bg:sapphire)]($style)'
+style = "bg:green"
+format = '[[  $time ](fg:crust bg:green)]($style)'
 
 [line_break]
 disabled = false
@@ -159,7 +149,7 @@ vimcmd_visual_symbol = '[❮](bold fg:yellow)'
 
 [cmd_duration]
 show_milliseconds = true
-format = '[[  in $duration ](fg:crust bg:lavender)]($style)'
+format = '[[  in $duration ](fg:crust bg:sapphire)]($style)'
 style = "bg:lavender"
 disabled = false
 show_notifications = true
