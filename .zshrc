@@ -15,6 +15,10 @@ plugins=(git zsh-nvm)
 # Initialize Starship
 eval "$(starship init zsh)"
 
+# Set default git editor
+export GIT_EDITOR=vim
+export VISUAL=vim
+
 # Aliases
 alias ls='eza --color=auto --icons'
 alias ll='eza -alF'
