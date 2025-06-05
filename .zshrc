@@ -7,8 +7,12 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Plugins
+# NVM configuration
 plugins=(git zsh-nvm)
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # User configuration
 
@@ -51,3 +55,13 @@ alias path='echo -e ${PATH//:/\\n}'
 # Reload shell
 alias reload='source ~/.zshrc'
 alias new-cs='!export CODESPACE_ID="$(gh cs create -R github/github -b master --devcontainer-path .devcontainer/devcontainer.json -m largePremiumLinux | tail -1)"; gh cs code -c $CODESPACE_ID; echo "Started Codespace $CODESPACE_ID"'
+
+# Rubocop function with optional fix flag
+rc() {
+  local fix_flag=""
+  if [[ "$1" == "-f" || "$1" == "--fix" ]]; then
+    fix_flag="-a"
+    shift
+  fi
+  git diff --name-only | grep "\.rb$" | xargs -r rubocop $fix_flag
+}

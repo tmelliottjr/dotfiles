@@ -29,6 +29,19 @@ install_starship() {
 
 }
 
+install_nvm() {
+  echo "==========================================================="
+  echo "              Installing NVM                               "
+  echo "-----------------------------------------------------------"
+  # Only install if not already installed
+  if [ ! -d "$HOME/.nvm" ]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    echo "NVM has been installed"
+  else
+    echo "NVM is already installed"
+  fi
+}
+
 packages() {
   echo "==========================================================="
   echo "               Installing packages                         "
@@ -77,6 +90,7 @@ configure_starship() {
 
 # Install components
 install_starship
+install_nvm
 configure_starship
 zshrc
 packages
