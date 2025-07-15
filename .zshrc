@@ -63,5 +63,10 @@ rc() {
     fix_flag="-a"
     shift
   fi
-  git diff --name-only | grep "\.rb$" | xargs -r rubocop $fix_flag
+  
+  # Get both modified/staged files and untracked files, filter for .rb files
+  {
+    git diff --name-only
+    git ls-files --others --exclude-standard
+  } | grep "\.rb$" | sort -u | xargs -r rubocop $fix_flag
 }
