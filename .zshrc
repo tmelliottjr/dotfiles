@@ -64,9 +64,9 @@ rc() {
     shift
   fi
   
-  # Get both modified/staged files and untracked files, filter for .rb files
+  # Get modified/staged files (excluding deleted) and untracked files, filter for .rb files
   {
-    git diff --name-only
+    git diff --name-only --diff-filter=AM
     git ls-files --others --exclude-standard
   } | grep "\.rb$" | sort -u | xargs -r rubocop $fix_flag
 }
