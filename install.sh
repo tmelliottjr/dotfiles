@@ -88,10 +88,24 @@ configure_starship() {
   cat starship.toml >$HOME/.config/starship.toml
 }
 
+# Make scripts executable
+setup_scripts() {
+  echo "==========================================================="
+  echo "                  Setting up Scripts                       "
+  echo "-----------------------------------------------------------"
+  if [ -d "scripts" ]; then
+    chmod +x scripts/*
+    echo "Scripts have been made executable"
+  else
+    echo "No scripts directory found"
+  fi
+}
+
 # Install components
 install_starship
 install_nvm
 configure_starship
+setup_scripts
 zshrc
 packages
 

@@ -1,0 +1,215 @@
+#!/bin/bash
+# filepath: script/run-tests-in-directory
+
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Default values
+DIRECTORY=""
+VERBOSE=false
+PARALLEL=false
+CONTINUE_ON_FAILURE=false
+TEST_OPTIONS=""
+
+usage() {
+    echo "Usage: $0 [OPTIONS] DIRECTORY"
+    echo ""
+    echo "Run all Ruby test files in the specified directory using bin/rails t"
+    echo ""
+    echo "OPTIONS:"
+    echo "  -h, --help              Show this help message"
+    echo "  -v, --verbose           Show verbose output"
+    echo "  -p, --parallel          Run tests in parallel"
+    echo "  -c, --continue          Continue running tests even if some fail"
+    echo "  -o, --options OPTIONS   Additional options to pass to bin/rails t"
+    echo ""
+    echo "EXAMPLES:"
+    echo "  $0 test/models"
+    echo "  $0 -p -v packages/planning/test"
+    echo "  $0 --continue --options='-p' test/controllers"
+}
+
+log() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -v|--verbose)
+            VERBOSE=true
+            shift
+            ;;
+        -p|--parallel)
+            PARALLEL=true
+            shift
+            ;;
+        -c|--continue)
+            CONTINUE_ON_FAILURE=true
+            shift
+            ;;
+        -o|--options)
+            TEST_OPTIONS="$2"
+            shift 2
+            ;;
+        --options=*)
+            TEST_OPTIONS="${1#*=}"
+            shift
+            ;;
+        -*)
+            error "Unknown option: $1"
+            usage
+            exit 1
+            ;;
+        *)
+            if [[ -z "$DIRECTORY" ]]; then
+                DIRECTORY="$1"
+            else
+                error "Multiple directories specified. Please provide only one directory."
+                usage
+                exit 1
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Validate required arguments
+if [[ -z "$DIRECTORY" ]]; then
+    error "Directory is required"
+    usage
+    exit 1
+fi
+
+# Validate directory exists
+if [[ ! -d "$DIRECTORY" ]]; then
+    error "Directory '$DIRECTORY' does not exist"
+    exit 1
+fi
+
+# Check if bin/rails exists
+if [[ ! -f "bin/rails" ]]; then
+    error "bin/rails not found. Make sure you're running this from the Rails project root."
+    exit 1
+fi
+
+# Find all Ruby test files
+log "Searching for test files in '$DIRECTORY'..."
+TEST_FILES=$(find "$DIRECTORY" -name "*_test.rb" -type f | sort)
+
+if [[ -z "$TEST_FILES" ]]; then
+    warning "No test files found in '$DIRECTORY'"
+    exit 0
+fi
+
+# Count test files
+TEST_COUNT=$(echo "$TEST_FILES" | wc -l)
+log "Found $TEST_COUNT test file(s)"
+
+if [[ "$VERBOSE" == true ]]; then
+    echo "$TEST_FILES"
+fi
+
+# Build the rails test command
+RAILS_CMD="bin/rails t"
+
+if [[ "$PARALLEL" == true ]]; then
+    RAILS_CMD="$RAILS_CMD -p"
+fi
+
+if [[ -n "$TEST_OPTIONS" ]]; then
+    RAILS_CMD="$RAILS_CMD $TEST_OPTIONS"
+fi
+
+# Run tests
+FAILED_TESTS=()
+PASSED_TESTS=()
+TOTAL_TESTS=0
+
+log "Starting test execution..."
+echo ""
+
+if [[ "$PARALLEL" == true ]]; then
+    # Run all tests at once in parallel
+    log "Running all tests in parallel..."
+    if $RAILS_CMD $TEST_FILES; then
+        success "All tests passed!"
+    else
+        if [[ "$CONTINUE_ON_FAILURE" == false ]]; then
+            error "Some tests failed"
+            exit 1
+        else
+            warning "Some tests failed, but continuing as requested"
+        fi
+    fi
+else
+    # Run tests one by one
+    while IFS= read -r test_file; do
+        TOTAL_TESTS=$((TOTAL_TESTS + 1))
+        echo -e "${BLUE}[$TOTAL_TESTS/$TEST_COUNT]${NC} Running: $test_file"
+
+        if [[ "$VERBOSE" == true ]]; then
+            echo "Command: $RAILS_CMD $test_file"
+        fi
+
+        if $RAILS_CMD "$test_file"; then
+            success "✓ $test_file"
+            PASSED_TESTS+=("$test_file")
+        else
+            error "✗ $test_file"
+            FAILED_TESTS+=("$test_file")
+
+            if [[ "$CONTINUE_ON_FAILURE" == false ]]; then
+                error "Test failed. Stopping execution. Use -c/--continue to continue on failures."
+                exit 1
+            fi
+        fi
+        echo ""
+    done <<< "$TEST_FILES"
+fi
+
+# Summary
+echo ""
+echo "=========================="
+echo "        SUMMARY"
+echo "=========================="
+
+if [[ "$PARALLEL" == false ]]; then
+    success "Passed: ${#PASSED_TESTS[@]}/$TEST_COUNT"
+
+    if [[ ${#FAILED_TESTS[@]} -gt 0 ]]; then
+        error "Failed: ${#FAILED_TESTS[@]}/$TEST_COUNT"
+        echo ""
+        echo "Failed tests:"
+        for failed_test in "${FAILED_TESTS[@]}"; do
+            echo "  - $failed_test"
+        done
+        exit 1
+    else
+        success "All tests passed! 🎉"
+    fi
+else
+    log "Parallel execution completed. Check output above for results."
+fi
