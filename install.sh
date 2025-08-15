@@ -7,7 +7,7 @@ zshrc() {
   git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-nvm
   echo "==========================================================="
   echo "                  Import zshrc                             "
-  echo "-----------------------------------------------------------"
+  echo "----------------------------------------------------------"
   cat .zshrc >$HOME/.zshrc
 }
 
