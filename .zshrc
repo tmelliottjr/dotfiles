@@ -52,10 +52,14 @@ alias du='du -h'
 alias free='free -m'
 alias path='echo -e ${PATH//:/\\n}'
 
-# Add scripts directory to PATH
-# Get the directory where this .zshrc file is located
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
-export PATH="$DOTFILES_DIR/scripts:$PATH"
+# Get the dotfiles directory using a consistent pattern
+if [[ -d "/workspaces/.codespaces/.persistedshare/dotfiles/" ]]; then
+  export DOTFILES_ROOT="/workspaces/.codespaces/.persistedshare/dotfiles"
+else 
+  export DOTFILES_ROOT="$HOME/.dotfiles"
+fi
+
+export PATH="$DOTFILES_ROOT/scripts:$PATH"
 
 # Custom scripts
 alias rtid='run-tests-in-directory'

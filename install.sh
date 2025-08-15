@@ -1,7 +1,11 @@
 #!/bin/sh
 
-# Get the directory where this script is located
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+# Get the dotfiles directory using a consistent pattern
+if [[ -d "/workspaces/.codespaces/.persistedshare/dotfiles/" ]]; then
+  export DOTFILES_ROOT="/workspaces/.codespaces/.persistedshare/dotfiles"
+else 
+  export DOTFILES_ROOT="$HOME/.dotfiles"
+fi
 
 zshrc() {
   echo "==========================================================="
@@ -11,7 +15,7 @@ zshrc() {
   echo "==========================================================="
   echo "                  Import zshrc                             "
   echo "-----------------------------------------------------------"
-  cat "$DOTFILES_DIR/.zshrc" > "$HOME/.zshrc"
+  cat "$DOTFILES_ROOT/.zshrc" > "$HOME/.zshrc"
 }
 
 install_starship() {
@@ -80,7 +84,7 @@ configure_starship() {
   echo "                  Setting up Starship                      "
   echo "-----------------------------------------------------------"
   mkdir -p "$HOME/.config"
-  cat "$DOTFILES_DIR/starship.toml" > "$HOME/.config/starship.toml"
+  cat "$DOTFILES_ROOT/starship.toml" > "$HOME/.config/starship.toml"
 }
 
 # Make scripts executable
@@ -88,8 +92,8 @@ setup_scripts() {
   echo "==========================================================="
   echo "                  Setting up Scripts                       "
   echo "-----------------------------------------------------------"
-  if [ -d "$DOTFILES_DIR/scripts" ]; then
-    chmod +x "$DOTFILES_DIR/scripts"/*
+  if [ -d "$DOTFILES_ROOT/scripts" ]; then
+    chmod +x "$DOTFILES_ROOT/scripts"/*
     echo "Scripts have been made executable"
   else
     echo "No scripts directory found"
@@ -101,7 +105,7 @@ main() {
   echo "==========================================================="
   echo "                Installing dotfiles                        "
   echo "-----------------------------------------------------------"
-  echo "Dotfiles directory: $DOTFILES_DIR"
+  echo "Dotfiles directory: $DOTFILES_ROOT"
   
   # Install components
   install_starship
