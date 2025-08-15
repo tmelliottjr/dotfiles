@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Get the directory where this script is located
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 zshrc() {
   echo "==========================================================="
   echo "                 cloning zsh-zsh-nvm                       "
@@ -8,25 +11,20 @@ zshrc() {
   echo "==========================================================="
   echo "                  Import zshrc                             "
   echo "-----------------------------------------------------------"
-  cat .zshrc >$HOME/.zshrc
+  cat "$DOTFILES_DIR/.zshrc" > "$HOME/.zshrc"
 }
 
 install_starship() {
   echo "==========================================================="
   echo "              Installing Starship                          "
   echo "-----------------------------------------------------------"
-  # Only install if not already installed
-  if
-    command -v starship &
-    >/dev/null
-  then
+  # Fix the condition - it was backwards
+  if ! command -v starship >/dev/null 2>&1; then
     sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes
     sudo chsh -s /bin/zsh $(whoami)
-    return
   else
     echo "Starship is already installed"
   fi
-
 }
 
 install_nvm() {
@@ -67,10 +65,7 @@ packages() {
     sudo pacman -S --noconfirm eza
   else
     echo "Attempting to install eza via cargo..."
-    if
-      command -v cargo &
-      >/dev/null
-    then
+    if command -v cargo >/dev/null 2>&1; then
       cargo install eza
     else
       echo "Could not install eza: Unsupported package manager and cargo not found"
@@ -84,8 +79,8 @@ configure_starship() {
   echo "==========================================================="
   echo "                  Setting up Starship                      "
   echo "-----------------------------------------------------------"
-  mkdir -p $HOME/.config
-  cat starship.toml >$HOME/.config/starship.toml
+  mkdir -p "$HOME/.config"
+  cat "$DOTFILES_DIR/starship.toml" > "$HOME/.config/starship.toml"
 }
 
 # Make scripts executable
@@ -93,21 +88,37 @@ setup_scripts() {
   echo "==========================================================="
   echo "                  Setting up Scripts                       "
   echo "-----------------------------------------------------------"
-  if [ -d "scripts" ]; then
-    chmod +x scripts/*
+  if [ -d "$DOTFILES_DIR/scripts" ]; then
+    chmod +x "$DOTFILES_DIR/scripts"/*
     echo "Scripts have been made executable"
   else
     echo "No scripts directory found"
   fi
 }
 
-# Install components
-install_starship
-install_nvm
-configure_starship
-setup_scripts
-zshrc
-packages
+# Main installation function
+main() {
+  echo "==========================================================="
+  echo "                Installing dotfiles                        "
+  echo "-----------------------------------------------------------"
+  echo "Dotfiles directory: $DOTFILES_DIR"
+  
+  # Install components
+  install_starship
+  install_nvm
+  configure_starship
+  setup_scripts
+  zshrc
+  packages
 
-# Setup auto tracking of branches
-git config --global --add --bool push.autoSetupRemote true
+  # Setup auto tracking of branches
+  git config --global --add --bool push.autoSetupRemote true
+  
+  echo "==========================================================="
+  echo "                Installation complete!                     "
+  echo "-----------------------------------------------------------"
+  echo "Please restart your terminal or run: source ~/.zshrc"
+}
+
+# Run main function
+main "$@"
