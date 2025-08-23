@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 DOTFILES_ROOT="${DOTFILES_ROOT:-"$HOME/.dotfiles"}"
 
