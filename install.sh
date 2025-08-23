@@ -2,13 +2,23 @@
 
 DOTFILES_ROOT="${DOTFILES_ROOT:-"$HOME/.dotfiles"}"
 
+# Output Debugging Information
+echo "Starting installation script..."
+echo "Current User: $(whoami)"
+echo "Home Directory: $HOME"
+echo "Current Shell: $SHELL"
+echo "Operating System: $OSTYPE"
+echo "Current Directory: $(pwd)"
+echo "Script Path: $0"
+echo "Script Arguments: $*"
+
 # if this is a codespace, link automatically cloned dotfiles repo to the expected DOTFILES
 # https://docs.github.com/en/codespaces/troubleshooting/troubleshooting-personalization-for-codespaces#troubleshooting-dotfiles
 if [[ -d "/workspaces/.codespaces/.persistedshare/dotfiles/" ]]; then
-  echo "Detected Codespaces environment."
+  echo "Detected Codespaces environment..."
   export DOTFILES_ROOT="/workspaces/.codespaces/.persistedshare/dotfiles"
 else 
-  echo "Using local dotfiles."
+  echo "Using local dotfiles..."
   export DOTFILES_ROOT="$HOME/.dotfiles"
 fi 
 
@@ -127,6 +137,8 @@ main() {
   echo "                Installation complete!                     "
   echo "-----------------------------------------------------------"
   echo "Please restart your terminal or run: source ~/.zshrc"
+
+  sudo chsh -s "$(which zsh)" "$(whoami)"
 }
 
 # Run main function
