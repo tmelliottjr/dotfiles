@@ -1,0 +1,118 @@
+#!/bin/bash
+# Rubocop function with optional fix flag
+
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+usage() {
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Run rubocop on modified/staged and untracked Ruby files"
+    echo ""
+    echo "OPTIONS:"
+    echo "  -f, --fix      Auto-fix violations with rubocop -a"
+    echo "  -h, --help     Show this help message"
+    echo ""
+    echo "EXAMPLES:"
+    echo "  $0              # Check modified Ruby files"
+    echo "  $0 -f           # Check and auto-fix modified Ruby files"
+    echo "  $0 --fix        # Same as -f"
+}
+
+log() {
+    echo -e "${BLUE}[INFO]${NC} $1"
+}
+
+success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Parse command line arguments
+fix_flag=""
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -f|--fix)
+            fix_flag="-a"
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -*)
+            error "Unknown option: $1"
+            usage
+            exit 1
+            ;;
+        *)
+            error "Unexpected argument: $1"
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    error "Not in a git repository"
+    exit 1
+fi
+
+# Check if rubocop is available
+if ! command -v rubocop &> /dev/null; then
+    error "rubocop not found. Please install rubocop first."
+    exit 1
+fi
+
+log "Finding modified/staged and untracked Ruby files..."
+
+# Get modified/staged files (excluding deleted) and untracked files, filter for .rb files
+ruby_files=$(
+    {
+        git diff --name-only --diff-filter=AM
+        git ls-files --others --exclude-standard
+    } | grep "\.rb$" | sort -u
+)
+
+if [[ -z "$ruby_files" ]]; then
+    warning "No modified Ruby files found."
+    exit 0
+fi
+
+file_count=$(echo "$ruby_files" | wc -l)
+log "Found $file_count Ruby file(s) to check"
+
+if [[ -n "$fix_flag" ]]; then
+    log "Running rubocop with auto-fix..."
+else
+    log "Running rubocop..."
+fi
+
+# Run rubocop on the files
+echo "$ruby_files" | xargs -r rubocop $fix_flag
+
+if [[ $? -eq 0 ]]; then
+    success "Rubocop completed successfully! ✨"
+else
+    exit_code=$?
+    if [[ -n "$fix_flag" ]]; then
+        warning "Rubocop auto-fix completed with some issues. Check the output above."
+    else
+        error "Rubocop found violations. Use -f/--fix to auto-fix where possible."
+    fi
+    exit $exit_code
+fi
