@@ -1,11 +1,16 @@
 #!/bin/sh
 
-# Get the dotfiles directory using a consistent pattern
+DOTFILES_ROOT="${DOTFILES_ROOT:-"$HOME/.dotfiles"}"
+
+# if this is a codespace, link automatically cloned dotfiles repo to the expected DOTFILES
+# https://docs.github.com/en/codespaces/troubleshooting/troubleshooting-personalization-for-codespaces#troubleshooting-dotfiles
 if [[ -d "/workspaces/.codespaces/.persistedshare/dotfiles/" ]]; then
+  echo "Detected Codespaces environment."
   export DOTFILES_ROOT="/workspaces/.codespaces/.persistedshare/dotfiles"
 else 
+  echo "Using local dotfiles."
   export DOTFILES_ROOT="$HOME/.dotfiles"
-fi
+fi 
 
 zshrc() {
   echo "==========================================================="
