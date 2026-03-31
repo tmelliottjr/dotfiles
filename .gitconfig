@@ -1,0 +1,30 @@
+[core]
+    editor = vim
+
+[init]
+    defaultBranch = main
+
+[push]
+    autoSetupRemote = true
+
+[fetch]
+    showForcedUpdates = false
+
+[pull]
+    rebase = true
+
+[diff]
+    colorMoved = default
+
+[merge]
+    conflictstyle = diff3
+
+[alias]
+    lg = log --oneline --graph --decorate --all
+    last = log -1 HEAD --stat
+    unstage = reset HEAD --
+    amend = commit --amend --no-edit
+
+# Machine-specific overrides (user.name, user.email, signing, etc.)
+[include]
+    path = ~/.gitconfig.local

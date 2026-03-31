@@ -84,6 +84,7 @@ log "Finding modified/staged and untracked Ruby files..."
 ruby_files=$(
     {
         git diff --name-only --diff-filter=AM
+        git diff --cached --name-only --diff-filter=AM
         git ls-files --others --exclude-standard
     } | grep "\.rb$" | sort -u
 )
@@ -103,9 +104,7 @@ else
 fi
 
 # Run rubocop on the files
-echo "$ruby_files" | xargs -r rubocop $fix_flag
-
-if [[ $? -eq 0 ]]; then
+if echo "$ruby_files" | xargs -r rubocop $fix_flag; then
     success "Rubocop completed successfully! ✨"
 else
     exit_code=$?

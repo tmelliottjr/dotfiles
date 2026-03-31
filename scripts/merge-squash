@@ -1,5 +1,5 @@
 #!/bin/bash
-# filepath: /workspaces/github/script/squash-merge
+# Squash all commits in the current branch into a single commit
 
 set -e
 

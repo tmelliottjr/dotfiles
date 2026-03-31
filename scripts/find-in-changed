@@ -109,6 +109,7 @@ fi
 files=$(
     {
         git diff --name-only --diff-filter=AM
+        git diff --cached --name-only --diff-filter=AM
         git ls-files --others --exclude-standard
     } | sort -u
 )

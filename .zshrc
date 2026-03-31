@@ -1,37 +1,50 @@
 # Load .ENV
-
 if [ -f ~/.env ]; then
   source ~/.env
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# ---------------------------------------------------------
+# Oh-My-Zsh
+# ---------------------------------------------------------
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME=""  # Disabled — Starship handles the prompt
 
-# NVM configuration
-plugins=(git zsh-nvm)
+plugins=(
+  git
+  zsh-nvm
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
 
+[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
+
+# NVM fallback (in case zsh-nvm plugin is not loaded)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# User configuration
-
-# Initialize Starship
+# ---------------------------------------------------------
+# Prompt & Editors
+# ---------------------------------------------------------
 eval "$(starship init zsh)"
-
-# Set default git editor
 export GIT_EDITOR=vim
 export VISUAL=vim
 
+# ---------------------------------------------------------
 # Aliases
+# ---------------------------------------------------------
+
+# File listing (eza)
 alias ls='eza --color=auto --icons'
 alias ll='eza -alF'
 alias la='eza -a'
 alias l='eza -F'
 alias lt='eza --tree'
+
+# Grep
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias fgrep='grep -F --color=auto'
+alias egrep='grep -E --color=auto'
 
 # Directory navigation
 alias ..='cd ..'
@@ -39,7 +52,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-# Git aliases
+# Git
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit'
@@ -49,24 +62,47 @@ alias gl='git pull'
 # System
 alias df='df -h'
 alias du='du -h'
-alias free='free -m'
 alias path='echo -e ${PATH//:/\\n}'
 
-# Get the dotfiles directory using a consistent pattern
+# ---------------------------------------------------------
+# Dotfiles & Scripts
+# ---------------------------------------------------------
 if [[ -d "/workspaces/.codespaces/.persistedshare/dotfiles/" ]]; then
   export DOTFILES_ROOT="/workspaces/.codespaces/.persistedshare/dotfiles"
-else 
+else
   export DOTFILES_ROOT="$HOME/.dotfiles"
 fi
 
 export PATH="$DOTFILES_ROOT/scripts:$PATH"
 
-# Custom scripts
 alias rtid='run-tests-in-directory'
 alias rc='rubocop-changed'
 alias f='find-in-changed'
 alias squash='merge-squash'
-
-# Reload shell
 alias reload='source ~/.zshrc'
-alias new-cs='!export CODESPACE_ID="$(gh cs create -R github/github -b master --devcontainer-path .devcontainer/devcontainer.json -m largePremiumLinux | tail -1)"; gh cs code -c $CODESPACE_ID; echo "Started Codespace $CODESPACE_ID"'
+
+# ---------------------------------------------------------
+# fzf
+# ---------------------------------------------------------
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Use fd for fzf if available (respects .gitignore)
+if command -v fd >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
+# ---------------------------------------------------------
+# Functions
+# ---------------------------------------------------------
+
+# Create and connect to a new Codespace
+new_cs() {
+  local codespace_id
+  codespace_id="$(gh cs create -R github/github -b master --devcontainer-path .devcontainer/devcontainer.json -m largePremiumLinux | tail -1)"
+  gh cs code -c "$codespace_id"
+  echo "Started Codespace $codespace_id"
+}
+alias new-cs='new_cs'
+
+# Create a directory and cd into it
+mkcd() { mkdir -p "$1" && cd "$1"; }
