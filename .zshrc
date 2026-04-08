@@ -18,6 +18,10 @@ plugins=(
 
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
+# Force emacs keybindings for line editing (zsh auto-enables vi mode
+# when VISUAL/EDITOR contains "vi", which breaks Cmd+key shortcuts)
+bindkey -e
+
 # NVM fallback (in case zsh-nvm plugin is not loaded)
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
