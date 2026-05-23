@@ -4,3 +4,5 @@
 *.swo
 *~
 Brewfile.lock.json
+nvim/lazy-lock.json
+nvim/plugin/

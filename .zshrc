@@ -110,3 +110,46 @@ alias new-cs='new_cs'
 
 # Create a directory and cd into it
 mkcd() { mkdir -p "$1" && cd "$1"; }
+
+# Find a file with tv and open it in nvim
+tvim() {
+  local file
+  file=$(tv files)
+  [[ -n "$file" ]] && nvim "$file"
+}
+
+# Pick a directory with tv, cd into it, and open nvim
+tcd() {
+  local dir
+  dir=$(tv dirs)
+  [[ -n "$dir" ]] && cd "$dir" && nvim .
+}
+
+# Search file contents with tv and open the match in nvim at the line
+# Usage:
+#   tgrep                     Search all files
+#   tgrep -g '*.md'           Search only markdown files
+#   tgrep -g '!*.md'          Exclude markdown files
+#   tgrep -g '!*test*'        Exclude files matching *test*
+#   tgrep -t py               Search only Python files
+#   tgrep -g '*.md' -g '!README*'  Combine multiple filters
+#   tgrep -i                  Interactive: prompts for filters before searching
+tgrep() {
+  local args=("$@") result file line
+  if [[ "$1" == "-i" ]]; then
+    shift
+    echo -n "rg flags (e.g. -g '*.md' -g '!*test*' -t py): "
+    read -r flags
+    args=(${(z)flags} "$@")
+  fi
+  result=$(tv text --source-command "rg --line-number --color=never ${args[*]} {0}")
+  [[ -n "$result" ]] || return
+  file="${result%%:*}"
+  line="${result#*:}"
+  line="${line%%:*}"
+  nvim "+${line}" "$file"
+}
+fpath=(~/.zsh/completions $fpath)
+autoload -U compinit && compinit
+
+eval "$(zoxide init zsh)"

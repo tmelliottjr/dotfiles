@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Tmux status bar git info — shows branch, changed/staged/untracked counts
+
+dir="$1"
+[ -z "$dir" ] && dir="$HOME"
+
+cd "$dir" 2>/dev/null || exit 0
+
+# Check if in a git repo
+branch=$(git -C "$dir" rev-parse --abbrev-ref HEAD 2>/dev/null) || exit 0
+
+# Count file statuses
+staged=$(git -C "$dir" diff --cached --numstat 2>/dev/null | wc -l | tr -d ' ')
+changed=$(git -C "$dir" diff --numstat 2>/dev/null | wc -l | tr -d ' ')
+untracked=$(git -C "$dir" ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
+
+info=" $branch"
+
+[ "$staged" -gt 0 ] && info="$info +$staged"
+[ "$changed" -gt 0 ] && info="$info ~$changed"
+[ "$untracked" -gt 0 ] && info="$info ?$untracked"
+
+echo "$info"

@@ -144,10 +144,20 @@ create_symlinks() {
   ln -sf "$DOTFILES_ROOT/.zshrc"       "$HOME/.zshrc"
   ln -sf "$DOTFILES_ROOT/starship.toml" "$HOME/.config/starship.toml"
   ln -sf "$DOTFILES_ROOT/.gitconfig"   "$HOME/.gitconfig"
+  ln -sf "$DOTFILES_ROOT/.tmux.conf"   "$HOME/.tmux.conf"
+  ln -sf "$DOTFILES_ROOT/nvim"         "$HOME/.config/nvim"
+  ln -sf "$DOTFILES_ROOT/television"   "$HOME/.config/television"
+
+  mkdir -p "$HOME/.zsh/completions"
+  ln -sf "$DOTFILES_ROOT/_sesh"        "$HOME/.zsh/completions/_sesh"
 
   ok "Linked .zshrc → ~/.zshrc"
   ok "Linked starship.toml → ~/.config/starship.toml"
   ok "Linked .gitconfig → ~/.gitconfig"
+  ok "Linked .tmux.conf → ~/.tmux.conf"
+  ok "Linked nvim → ~/.config/nvim"
+  ok "Linked television → ~/.config/television"
+  ok "Linked _sesh → ~/.zsh/completions/_sesh"
 }
 
 # --- Scripts ------------------------------------------------
