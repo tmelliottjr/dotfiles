@@ -18,6 +18,7 @@ return {
           "ts_ls",
           "pyright",
           "gopls",
+          "rust_analyzer",
         },
         automatic_installation = true,
       })
@@ -130,7 +131,14 @@ return {
         capabilities = capabilities,
       })
 
-      vim.lsp.enable({ "lua_ls", "ts_ls", "pyright", "gopls" })
+      vim.lsp.config("rust_analyzer", {
+        cmd = { "rust-analyzer" },
+        filetypes = { "rust" },
+        root_markers = { "Cargo.toml", "rust-project.json", ".git" },
+        capabilities = capabilities,
+      })
+
+      vim.lsp.enable({ "lua_ls", "ts_ls", "pyright", "gopls", "rust_analyzer" })
 
       -- LSP keymaps on attach
       vim.api.nvim_create_autocmd("LspAttach", {
