@@ -23,6 +23,7 @@ return {
         mappings = {
           ["u"] = "navigate_up",
           ["."] = "set_root",
+          ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
         },
       },
       default_component_configs = {

@@ -55,6 +55,5 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "BufLeave", "FocusLost" }, {
     end
   end,
 })
-})
 
 return {}
