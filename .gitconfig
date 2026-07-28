@@ -28,3 +28,7 @@
 # Machine-specific overrides (user.name, user.email, signing, etc.)
 [include]
     path = ~/.gitconfig.local
+[rebase]
+	autoStash = true
+[rerere]
+	enabled = true
