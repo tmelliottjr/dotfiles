@@ -11,6 +11,7 @@ Personal dotfiles for macOS and GitHub Codespaces.
 | `starship.toml`   | Starship prompt theme (Catppuccin Mocha)       |
 | `Brewfile`        | macOS packages (via `brew bundle`)             |
 | `scripts/`        | Custom CLI scripts (see below)                 |
+| `copilot/`        | Copilot config — global custom instructions    |
 | `install.sh`      | Installer — works on macOS and Codespaces      |
 
 ## Quick Start
@@ -58,6 +59,16 @@ machine-specific overrides there (user name, email, signing keys):
     name = Your Name
     email = you@example.com
 ```
+
+## Copilot Instructions
+
+`copilot/copilot-instructions.md` holds personal, project-agnostic guidance for
+GitHub Copilot (CLI, IDE, and cloud agent). `install.sh` symlinks it to
+`~/.copilot/copilot-instructions.md`, which Copilot reads globally across every
+repository. Repository-specific instructions (`AGENTS.md`,
+`.github/copilot-instructions.md`) add local context and take precedence on
+project-specific matters. Because it is a symlink, edits to the source apply
+immediately — no reinstall needed.
 
 ## Key Aliases
 

@@ -151,6 +151,9 @@ create_symlinks() {
   mkdir -p "$HOME/.zsh/completions"
   ln -sf "$DOTFILES_ROOT/_sesh"        "$HOME/.zsh/completions/_sesh"
 
+  mkdir -p "$HOME/.copilot"
+  ln -sf "$DOTFILES_ROOT/copilot/copilot-instructions.md" "$HOME/.copilot/copilot-instructions.md"
+
   ok "Linked .zshrc → ~/.zshrc"
   ok "Linked starship.toml → ~/.config/starship.toml"
   ok "Linked .gitconfig → ~/.gitconfig"
@@ -158,6 +161,7 @@ create_symlinks() {
   ok "Linked nvim → ~/.config/nvim"
   ok "Linked television → ~/.config/television"
   ok "Linked _sesh → ~/.zsh/completions/_sesh"
+  ok "Linked copilot/copilot-instructions.md → ~/.copilot/copilot-instructions.md"
 }
 
 # --- Scripts ------------------------------------------------
