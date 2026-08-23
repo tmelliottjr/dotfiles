@@ -49,6 +49,16 @@ that materially changes the result, ask before proceeding.
   work into stacked, targeted pull requests.
 - Follow the repository's pull request template, and keep summaries short and high-level.
 
+## GitHub issues
+
+- Write issues that are concise and to the point. State the problem or goal and the
+  desired outcome, then stop.
+- Describe what and why, not how. Do not prescribe specific implementation details;
+  leave the approach to whoever picks up the issue.
+- No conversational phrases, jargon, em dashes, or lengthy elaboration.
+- Follow the repository's issue templates when they exist.
+- For a full structure and defaults, use the `github-issue-writing` skill.
+
 ## Testing and validation
 
 - Run the smallest targeted existing tests that cover the change first; expand to broader

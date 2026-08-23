@@ -70,6 +70,16 @@ repository. Repository-specific instructions (`AGENTS.md`,
 project-specific matters. Because it is a symlink, edits to the source apply
 immediately — no reinstall needed.
 
+### Copilot Skills
+
+`copilot/skills/` holds personal Copilot skills, each in its own directory with a
+`SKILL.md`. `install.sh` symlinks them into `~/.copilot/skills/`, where Copilot
+loads them on demand when a request matches the skill's description.
+
+| Skill                   | Triggers on                                    |
+|-------------------------|------------------------------------------------|
+| `github-issue-writing`  | Writing, drafting, or filing a GitHub issue     |
+
 ## Key Aliases
 
 ```bash
