@@ -32,3 +32,6 @@
 	autoStash = true
 [rerere]
 	enabled = true
+[user]
+	name = Tom Elliott
+	email = 13594679+tmelliottjr@users.noreply.github.com
