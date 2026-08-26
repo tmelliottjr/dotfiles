@@ -155,7 +155,10 @@ create_symlinks() {
   ln -sf "$DOTFILES_ROOT/copilot/copilot-instructions.md" "$HOME/.copilot/copilot-instructions.md"
 
   mkdir -p "$HOME/.copilot/skills"
-  ln -sf "$DOTFILES_ROOT/copilot/skills/github-issue-writing" "$HOME/.copilot/skills/github-issue-writing"
+  for skill in "$DOTFILES_ROOT/copilot/skills"/*/; do
+    [ -f "$skill/SKILL.md" ] || continue
+    ln -sfn "${skill%/}" "$HOME/.copilot/skills/$(basename "$skill")"
+  done
 
   ok "Linked .zshrc → ~/.zshrc"
   ok "Linked starship.toml → ~/.config/starship.toml"
@@ -165,7 +168,10 @@ create_symlinks() {
   ok "Linked television → ~/.config/television"
   ok "Linked _sesh → ~/.zsh/completions/_sesh"
   ok "Linked copilot/copilot-instructions.md → ~/.copilot/copilot-instructions.md"
-  ok "Linked copilot/skills/github-issue-writing → ~/.copilot/skills/github-issue-writing"
+  for skill in "$DOTFILES_ROOT/copilot/skills"/*/; do
+    [ -f "$skill/SKILL.md" ] || continue
+    ok "Linked copilot/skills/$(basename "$skill") → ~/.copilot/skills/$(basename "$skill")"
+  done
 }
 
 # --- Scripts ------------------------------------------------
