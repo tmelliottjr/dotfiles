@@ -79,6 +79,7 @@ loads them on demand when a request matches the skill's description.
 | Skill                   | Triggers on                                    |
 |-------------------------|------------------------------------------------|
 | `github-issue-writing`  | Writing, drafting, or filing a GitHub issue     |
+| `github-pr-writing`     | Writing a PR title, description, or opening a PR |
 
 ## Key Aliases
 

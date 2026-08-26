@@ -47,7 +47,23 @@ that materially changes the result, ask before proceeding.
 - Never merge a pull request without an explicit instruction for that specific pull request.
 - Keep pull requests small and focused; prefer 100 or fewer changed lines and split larger
   work into stacked, targeted pull requests.
-- Follow the repository's pull request template, and keep summaries short and high-level.
+
+## Pull request descriptions
+
+- Be direct and concise. A pull request is not storytelling time. State what changed and
+  why, then stop.
+- Cover what and why, briefly. Do not explain how, and do not restate the diff. Call out a
+  design decision only when the code cannot show it.
+- Use plain language. Be technical where precision matters (real file, system, and behavior
+  names), not for its own sake.
+- No conversational style, no narrating the path you took to the solution, and no filler
+  such as "as discussed".
+- Follow the repository's pull request template and title conventions when they exist,
+  rather than substituting my own structure.
+- Link the related issue and summarize it. Never link alone.
+- Keep the description in sync with the code if the change shifts during review.
+- For title rules, default structure, and the filing workflow, use the `github-pr-writing`
+  skill.
 
 ## GitHub issues
 
@@ -90,7 +106,9 @@ that materially changes the result, ask before proceeding.
 - Prefer clear naming and structure over comments. Add a comment only when the code cannot
   be made clear without one, or the repository requires it.
 - Use complete `https://github.com/...` links for issues, pull requests, discussions,
-  commits, and code. Never use shorthand such as `org/repo#123`.
+  commits, and code. Never use shorthand such as `org/repo#123`. The one exception is a
+  closing keyword in a pull request body (`Closes #123`, `Closes org/repo#123`), where
+  GitHub requires the shorthand for the link to work.
 - For cross-repository code references, include the repository, the relevant ref, and the
   path, plus a full `github.com` link.
 - Do not give time or effort estimates.
