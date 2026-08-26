@@ -32,6 +32,31 @@ that materially changes the result, ask before proceeding.
 - Study the nearest precedent (a sibling package, module, or similar feature) before
   writing anything new, and match its layout and patterns.
 
+## Code comments
+
+- Prefer clear naming and structure. Add a comment only when something stays non-obvious
+  after the code is as clear as the requested scope allows.
+- Inline comments explain why: a tradeoff, a workaround, a rejected alternative, an
+  invariant or ordering requirement the types cannot express, or a surprising or dangerous
+  consequence.
+- Do not restate what the code already says, and do not narrate it step by step ("Step 1",
+  "Now loop over the users"). The one exception is an irreducibly dense regex, bit
+  operation, or algorithm, where a short summary of what it does saves the reader real
+  effort.
+- No storytelling. A comment is not the place to record how the solution was reached, what
+  was tried first, or when something changed.
+- Use clear, concise, simple language, with no "I" or "we".
+- API documentation is a separate case from the rules above. On public or exported API,
+  document the caller-visible contract (behavior, constraints, side effects, errors) in the
+  language's required convention and voice, even when the implementation looks obvious. Do
+  not paraphrase the signature, and skip short private helpers with self-describing names.
+- Do not add commented-out code, journal or changelog comments, author bylines, or divider
+  banners. Preserve required legal, license, and generated-file notices.
+- Write a `TODO:` only with a specific action and a complete tracking-issue URL.
+- Update or delete any comment that your change makes inaccurate.
+- Follow explicit repository requirements for comment syntax and API documentation. Do not
+  copy unnecessary comment density from surrounding code.
+
 ## Git and pull requests
 
 - Prefix branches with `tmelliottjr/` followed by a kebab-case verb-noun name, such as
@@ -103,8 +128,6 @@ that materially changes the result, ask before proceeding.
 - Prefer GitHub-flavored Markdown.
 - Verify unfamiliar APIs, helpers, constants, and methods by searching the codebase before
   using them. Ask only if the answer stays unclear.
-- Prefer clear naming and structure over comments. Add a comment only when the code cannot
-  be made clear without one, or the repository requires it.
 - Use complete `https://github.com/...` links for issues, pull requests, discussions,
   commits, and code. Never use shorthand such as `org/repo#123`. The one exception is a
   closing keyword in a pull request body (`Closes #123`, `Closes org/repo#123`), where
