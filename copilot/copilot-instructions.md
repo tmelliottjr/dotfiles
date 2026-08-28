@@ -17,6 +17,16 @@ that materially changes the result, ask before proceeding.
   issues, pull requests, and repository operations).
 - Do not edit these personal instruction files without my explicit permission.
 
+## GitHub CLI authentication
+
+- In a Codespace, the injected `GITHUB_TOKEN` is scoped to a single repository and `gh`
+  prefers it over stored credentials, so cross-repo commands fail with 403 or 404 that look
+  like the resource does not exist. Check `gh auth status` before concluding I lack access.
+- To fix it, `unset GITHUB_TOKEN` then run `gh auth login` for the OAuth flow. Ask me to
+  complete it, since it needs a one-time code in a browser. Add scopes with
+  `gh auth refresh -s <scope>`. Never work around an auth failure with a token in a file,
+  a command line, or a commit.
+
 ## Scope and change discipline
 
 - Make the smallest complete change that fully solves the problem. Complete beats minimal,
