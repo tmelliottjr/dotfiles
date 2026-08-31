@@ -12,30 +12,70 @@ description: >
 
 # GitHub PR Writing
 
-A pull request description exists to get a reviewer productive fast. Say what
-changed and why it changed. The diff already shows how.
+A pull request description gets a reviewer productive in the next twenty
+minutes. Say what changed and why. The diff already shows how.
 
-## Style rules (always apply)
+Two failure modes matter, and the second is the common one:
 
-- **Direct and concise.** Every line earns its place. Short sentences, tight
-  bullets. If a section runs past a few sentences, cut it.
-- **No storytelling.** Do not narrate the journey ("first I tried X, then I
-  noticed Y, so I went with Z"). Give the conclusion, not the exploration.
-- **No conversational style.** Drop openers, filler, and asides such as "Hey
-  team", "So basically", "I was thinking", "Just a small one", "As discussed",
-  "Hope this helps". No emoji unless the repository's template uses them.
-- **What and why, not how.** Describe the change and the reason for it. Do not
-  walk the reviewer through the implementation line by line or restate the diff.
-  Mention a design decision only when the diff cannot explain it (a tradeoff, a
-  rejected alternative, a constraint, a deliberate limitation).
+- **Too little.** "Fix bug", "Update user service", "Address feedback".
+- **Too much.** An essay that argues its own case, narrates how the work was
+  done, and buries the change in prose the reviewer has to mine.
+
+## Budget
+
+Hard limits, not targets. Under is fine. Over is a defect.
+
+| Part | Limit |
+| --- | --- |
+| Body prose you write, excluding template headings, checkboxes, and links | 200 words |
+| Opening summary | 3 sentences |
+| Any paragraph | 2 sentences |
+| Any bullet | 1 sentence |
+| Any bullet list | 5 bullets |
+| Any answer to a template question | 2 sentences, or 3 bullets |
+
+If the change will not fit, the pull request is too big. Split it into stacked
+pull requests. Never grow the description to compensate for a large diff.
+
+## Never include
+
+- **How the change was made.** No account of what was tried first, what a review
+  found, what got fixed in response, or what changed between pushes. Describe the
+  code as it stands, as if it had always looked this way.
+- **A per-file or per-commit walkthrough.** The diff already has one.
+- **Test, lint, or CI output.** Test counts, coverage percentages, and mutation
+  scores are noise. One line naming what was run is enough.
+- **A review record.** No finding counts, agent logs, self-assessment, or claims
+  about how thorough the work was.
+- **Commit SHAs or branch names.**
+- **Instructions about how to review.** Do not ask the reviewer to read carefully
+  or to pay attention to a section. Boilerplate the template itself supplies
+  stays as written.
+- **Anything already stated in another section.**
+
+## Voice
+
+- **One idea per sentence.** Short sentences, plain words. Say "use", not
+  "utilize". Cut adverbs ending in -ly.
+- **No metaphor, imagery, or rhetorical build.** Write "the arrow keys now reach
+  the paging placeholders", not "every place a reader can end up is a place the
+  keyboard reaches".
+- **No bolded thesis followed by an argument.** That is an essay. A pull request
+  states the decision in a sentence and moves on.
+- **Present tense, active voice, describing the code as it is now.** Not "was
+  investigated", "was deliberately not adopted", "has been made concrete".
+- **No conversational filler.** No "Hey team", "So basically", "I was thinking",
+  "Just a small one", "As discussed", "Hope this helps". No emoji unless the
+  repository's template uses them.
 - **Plain language, technical where it matters.** Use the real names of the
   systems, files, endpoints, and behaviors involved. Skip buzzwords and internal
   shorthand a new reviewer would not recognize.
-- **Stand alone.** Never make the body just a ticket link. Link the issue *and*
-  summarize it.
 - **No em dashes.** Use commas, parentheses, or separate sentences.
-- **Present the facts.** No effort or time estimates, no self-congratulation
-  ("cleaned this up nicely"), no apologies.
+- **No judgment adverbs.** Drop "deliberately", "carefully", "properly",
+  "nicely", "simply". No effort or time estimates, no self-congratulation, no
+  apologies.
+- **Stand alone.** Never make the body just a ticket link. Link the issue *and*
+  summarize it in a sentence.
 
 ## Title
 
@@ -61,28 +101,48 @@ changed and why it changed. The diff already shows how.
 
 ## Body
 
-**Always check for a template first.** If the repository has one, keep its
-headings and their order, fill in every required section, and honor its
-instructions about optional sections. Remove the HTML comment instructions and
-any placeholder text. Do not substitute the default structure below. Leave no
-unchecked box for something that is actually done.
+### Filling a repository template
 
-When there is no template, use this shape and drop any section with nothing
-useful to say:
+Most repositories have one, and this is where descriptions go wrong most often.
+A template's questions are prompts for a sentence or two, not essay titles.
+
+- Keep the template's headings, their order, and every required section. Do not
+  add sections it does not ask for, and do not substitute the structure below.
+- **Answer each question in at most 2 sentences or 3 bullets, then stop.** A
+  question with a one-word answer gets one word.
+- **Never stuff a bullet to stay under the cap.** When a question covers more
+  decisions than fit, drop the least important ones rather than packing two
+  unrelated points into one sentence. A reviewer can ask about what is missing.
+- Check the boxes that apply. Leave no box unchecked for something that is done,
+  and do not explain a box you checked.
+- Remove the HTML comment instructions and placeholder text, but keep any comment
+  the template says to preserve, such as a version marker or a label trigger.
+- "What approach did you choose and why" wants the decision and the constraint
+  that forced it, not the reasoning that led there. One sentence each.
+- "How did you validate this change" wants the kind of validation, not the
+  results. "Unit tests and a Storybook check", not a test count.
+- List a rejected alternative only when a reviewer would otherwise propose it.
+  One line, and link where the detail lives if it is written down.
+- List a known gap or deferred fix only when it affects review or rollout. One
+  line each, capped at three.
+
+### Default structure (no template)
+
+Use this shape and drop any section with nothing useful to say:
 
 ```markdown
 ## Summary
 One to three sentences: what this change does, in plain language.
 
 ## Why
-One to three sentences: the problem, bug, or goal behind it. Link the issue.
+One or two sentences: the problem, bug, or goal behind it. Link the issue.
 
 ## Changes
 - Grouped by concept or area, not file by file.
-- One line each. Note anything a reviewer would otherwise miss.
+- One line each, five at most.
 
 ## Testing
-How this was verified. Name the commands or tests that were run.
+One or two lines naming what was run.
 
 ## Notes (optional)
 Follow-ups, known gaps, deliberate omissions, migration or rollout steps.
@@ -91,16 +151,33 @@ Follow-ups, known gaps, deliberate omissions, migration or rollout steps.
 Section guidance:
 
 - **Summary.** The reviewer should understand the change from this alone.
-- **Why.** The part the diff can never show. Skip it only when the title makes
-  it self-evident (a typo fix, a version bump).
-- **Changes.** Group related edits into a handful of bullets. Skip this section
-  entirely on a small, single-purpose PR where the summary already covers it.
-- **Testing.** State what was actually run and its result. Do not claim coverage
-  that does not exist. If it was not verified, say so plainly.
+- **Why.** The part the diff can never show. Skip it only when the title makes it
+  self-evident (a typo fix, a version bump).
+- **Changes.** Skip this section entirely when the summary already covers it.
+- **Testing.** Name what was actually run. Do not claim coverage that does not
+  exist. If it was not verified, say so in one line.
 - **Screenshots or recordings.** Include them for any user-visible change. Use
   before and after when behavior changed.
-- **Breaking changes.** Call them out explicitly near the top, with the
-  migration step they require.
+- **Breaking changes.** Call them out explicitly near the top, with the migration
+  step they require.
+
+## Prior art
+
+Link precedent when it saves the reviewer from reconstructing context. Good
+candidates:
+
+- The pull request this one builds on, or the previous layer in a stack.
+- An existing implementation this change mirrors, so the reviewer can compare
+  against something already approved.
+- The pull request or ADR that established the pattern being applied here.
+- The issue, spec, or design doc that defines "done".
+
+One line each, with a full `https://github.com/...` link and a few words on why
+it is relevant. Never link alone, and never link something the reviewer does not
+need.
+
+> Builds on https://github.com/github/github-ui/pull/31757, which added the
+> roving focus framework. Follows the same reducer shape as `packages/board-core`.
 
 ## Linking issues
 
@@ -120,6 +197,71 @@ Section guidance:
   the bottom PR carries the closing keyword.
 - When there is no issue, do not invent one.
 
+## Rewrites
+
+The same content, over budget and in budget. The pattern to learn is that the
+right version keeps every fact a reviewer acts on and drops the argument around
+it.
+
+**Opening**
+
+> ❌ Fifth open layer of the shared board packages. The roving focus framework
+> landed in `<link>`; this one finishes it, so every place a reader can end up on
+> the board is a place the keyboard reaches, and it reports what they are
+> touching.
+
+> ✅ Adds the remaining keyboard focus positions to the board: the three paging
+> placeholders and each swimlane name. Builds on `<link>`, which added the roving
+> focus framework.
+
+**Design decision**
+
+> ❌ **Four new focus positions, not four new tab stops.** `views#43` asks that
+> each of the three load-more controls be a focus stop. There is no control: the
+> board pages by scrolling a sentinel into view, and each direction draws a still
+> `<p>` ghost saying more exists. Giving non-interactive text a `tabindex` would
+> put an element nobody can operate into the page's tab order and give the board
+> a second way in. So `BoardFocusPosition` gained a `kind`, and the three ghosts
+> and each swimlane's name became coordinates the focus model can name.
+
+> ✅ The paging placeholders are focus positions, not tab stops. They are static
+> text with no control to operate, so a `tabindex` would add a second way into
+> the board. The board stays one tab stop.
+
+**Rejected alternative**
+
+> ❌ `role="grid"` was investigated as the fix for browse mode and deliberately
+> not adopted. `grid` is a two-dimensional role and this board is
+> three-dimensional (column by swimlane by card index): making a cell a
+> `gridcell` leaves its cards outside the pattern, and making a card one forces a
+> cell to be a `row`, which collides with swimlanes. It would also cost the
+> `aria-posinset` and `aria-setsize` a windowed cell's cards carry...
+
+> ✅ Not using `role="grid"`: the role is two-dimensional and this board is three
+> (column, swimlane, card index). Reasoning is in `packages/board/README.mdx`.
+
+**Validation**
+
+> ❌ 42 new tests, 358 passing across the two packages, alongside lint, stylelint
+> and type-check on both. Nineteen mutations were applied to the new code and
+> eighteen failed a test; the one that did not is the guard that declines a key
+> when the scrolling container has nowhere left to go...
+
+> ✅ Unit tests, lint, and type-check on both packages. Four new stories,
+> verified in Storybook locally.
+
+**Known gaps**
+
+> ❌ an accessibility review and an independent code review both ran, and both
+> independently found the same critical bug, which was real and is fixed here: a
+> focused paging ghost that unmounts... Alongside it: carried keys are now
+> concrete, so a position read back never holds a placeholder...
+
+> ✅ Two known gaps, documented in `packages/board-core/README.mdx`: focus moving
+> to a row header menu still reports the previous card, and a row header that
+> never calls `useBoardRowHeader` leaves an unreachable position. Neither loses
+> focus or fails WCAG.
+
 ## Workflow
 
 1. **Read the actual change.** Run `git --no-pager log <base>..HEAD` and
@@ -134,11 +276,22 @@ Section guidance:
    description rules.
 3. **Check the title convention** in recent merged PR titles before writing the
    title.
-4. **Draft in Markdown** and show it to the user.
-5. **Filing.** An explicit request to open, create, or file the PR is approval to
+4. **Find the prior art.** Check whether this builds on another pull request, has
+   a parent in a stack, or mirrors an existing implementation worth pointing at.
+5. **Draft in Markdown**, writing only from the final state of the code. Never
+   from your own session history: if a sentence only makes sense to someone who
+   watched the work happen, it does not belong in the description.
+6. **Make a cut pass before showing it.** This step is not optional, and it is
+   what keeps the description useful.
+   - Delete every sentence that does not change what the reviewer does.
+   - Delete every sentence that describes the process rather than the code.
+   - Collapse each remaining paragraph over 2 sentences.
+   - Count the words. Over 200, cut again rather than rationalizing.
+7. **Show the draft to the user.**
+8. **Filing.** An explicit request to open, create, or file the PR is approval to
    create it as a draft. If the user only asked for the copy, show the draft and
    wait.
-6. **File it with the GitHub CLI** as a draft:
+9. **File it with the GitHub CLI** as a draft:
 
    ```bash
    gh pr create --draft --title "<title>" --body-file <path>
@@ -148,8 +301,8 @@ Section guidance:
    `--base` for a stacked or non-default target branch. Add `--reviewer`,
    `--label`, or `--assignee` only when asked. Return the full
    `https://github.com/...` PR URL.
-7. **Do not mark it ready for review** and do not merge it without an explicit
-   instruction for that specific PR.
+10. **Do not mark it ready for review** and do not merge it without an explicit
+    instruction for that specific PR.
 
 ## Updating an existing PR
 
@@ -170,11 +323,17 @@ stacked PRs rather than writing a longer description to compensate.
 
 - [ ] Title is specific, under 72 characters, and has no trailing period.
 - [ ] Title matches the repository's own PR title convention.
-- [ ] The repository's PR template was used and its required sections filled in.
+- [ ] The repository's PR template was used, and each of its questions answered
+      in 2 sentences or 3 bullets at most.
+- [ ] Body prose is under 200 words. No paragraph runs past 2 sentences.
 - [ ] Body says what changed and why, and does not restate the diff.
-- [ ] No storytelling, no conversational filler, no em dashes.
+- [ ] Nothing describes how the work was done: no attempts, no review findings,
+      no fixes made in response to feedback, no test counts or CI output.
+- [ ] No metaphor, no bolded thesis paragraphs, no conversational filler, no em
+      dashes.
+- [ ] Prior art linked where it saves the reviewer context, with one line of why.
 - [ ] Issue linked, with a closing keyword when the PR targets the default
       branch.
-- [ ] Testing states what was actually run.
+- [ ] Testing names what was run, without results or counts.
 - [ ] Screenshots included for user-visible changes.
 - [ ] Opened as a draft, and not marked ready or merged without being asked.

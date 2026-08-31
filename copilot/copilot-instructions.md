@@ -85,20 +85,30 @@ that materially changes the result, ask before proceeding.
 
 ## Pull request descriptions
 
-- Be direct and concise. A pull request is not storytelling time. State what changed and
-  why, then stop.
-- Cover what and why, briefly. Do not explain how, and do not restate the diff. Call out a
-  design decision only when the code cannot show it.
-- Use plain language. Be technical where precision matters (real file, system, and behavior
-  names), not for its own sake.
-- No conversational style, no narrating the path you took to the solution, and no filler
-  such as "as discussed".
-- Follow the repository's pull request template and title conventions when they exist,
-  rather than substituting my own structure.
+- Be direct and concise. A pull request is not storytelling time. State what
+  changed and why, then stop.
+- Keep body prose under 200 words. No paragraph over two sentences, no bullet over
+  one sentence, no list over five bullets. If it will not fit, split the pull
+  request instead of growing the description.
+- Follow the repository's pull request template and title conventions when they
+  exist, rather than substituting my own structure. Answer each template question
+  in at most two sentences or three bullets, then stop.
+- Cover what and why, briefly. Do not explain how, and do not restate the diff.
+  Call out a design decision only when the code cannot show it, in one sentence.
+- Never describe how the work was done: no attempts, no review findings, no fixes
+  made in response to feedback, no test counts, no CI or lint output, no commit
+  SHAs. Describe the code as it stands.
+- Link prior art when it saves the reviewer context: the pull request this builds
+  on, the previous layer in a stack, or an existing implementation this mirrors.
+  One line each, with a full link and a few words on why it is relevant.
+- Use plain language. Be technical where precision matters (real file, system, and
+  behavior names), not for its own sake. No metaphor, no bolded thesis paragraphs.
+- No conversational style, no jargon, no em dashes, no filler such as "as
+  discussed".
 - Link the related issue and summarize it. Never link alone.
 - Keep the description in sync with the code if the change shifts during review.
-- For title rules, default structure, and the filing workflow, use the `write-pull-request`
-  skill.
+- For title rules, default structure, brevity budgets, and the filing workflow,
+  use the `write-pull-request` skill.
 
 ## GitHub issues
 
