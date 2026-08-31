@@ -155,6 +155,12 @@ create_symlinks() {
   ln -sf "$DOTFILES_ROOT/copilot/copilot-instructions.md" "$HOME/.copilot/copilot-instructions.md"
 
   mkdir -p "$HOME/.copilot/skills"
+  # A renamed or deleted skill leaves a dangling link that Copilot still tries to load.
+  for link in "$HOME/.copilot/skills"/*; do
+    if [ -L "$link" ] && [ ! -e "$link" ]; then
+      rm -f "$link"
+    fi
+  done
   for skill in "$DOTFILES_ROOT/copilot/skills"/*/; do
     [ -f "$skill/SKILL.md" ] || continue
     ln -sfn "${skill%/}" "$HOME/.copilot/skills/$(basename "$skill")"
