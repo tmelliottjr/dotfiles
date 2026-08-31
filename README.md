@@ -76,10 +76,10 @@ immediately — no reinstall needed.
 `SKILL.md`. `install.sh` symlinks them into `~/.copilot/skills/`, where Copilot
 loads them on demand when a request matches the skill's description.
 
-| Skill                   | Triggers on                                    |
-|-------------------------|------------------------------------------------|
-| `github-issue-writing`  | Writing, drafting, or filing a GitHub issue     |
-| `github-pr-writing`     | Writing a PR title, description, or opening a PR |
+| Skill                 | Triggers on                                      |
+|-----------------------|--------------------------------------------------|
+| `write-github-issue`  | Writing, drafting, or filing a GitHub issue      |
+| `write-pull-request`  | Writing a PR title, description, or opening a PR |
 
 ## Key Aliases
 

@@ -1,5 +1,5 @@
 ---
-name: github-pr-writing
+name: write-pull-request
 description: >
   Use this skill whenever the user asks to write, draft, prepare, create, open,
   file, update, revise, rewrite, or improve a GitHub pull request or PR, or asks

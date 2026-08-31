@@ -97,7 +97,7 @@ that materially changes the result, ask before proceeding.
   rather than substituting my own structure.
 - Link the related issue and summarize it. Never link alone.
 - Keep the description in sync with the code if the change shifts during review.
-- For title rules, default structure, and the filing workflow, use the `github-pr-writing`
+- For title rules, default structure, and the filing workflow, use the `write-pull-request`
   skill.
 
 ## GitHub issues
@@ -108,7 +108,7 @@ that materially changes the result, ask before proceeding.
   leave the approach to whoever picks up the issue.
 - No conversational phrases, jargon, em dashes, or lengthy elaboration.
 - Follow the repository's issue templates when they exist.
-- For a full structure and defaults, use the `github-issue-writing` skill.
+- For a full structure and defaults, use the `write-github-issue` skill.
 
 ## Testing and validation
 

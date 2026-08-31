@@ -1,5 +1,5 @@
 ---
-name: github-issue-writing
+name: write-github-issue
 description: >
   Use this skill whenever the user asks to write, draft, create, open, file, or
   log a GitHub issue, bug, task, or ticket (for example "write a GitHub issue",
