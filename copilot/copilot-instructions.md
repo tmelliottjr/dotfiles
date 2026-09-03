@@ -166,6 +166,17 @@ the design has to be; that is the next section.
 - Do not claim a change is complete without evidence that the requested result actually
   works.
 
+## Observability
+
+- Instrument the code you change. Decide deliberately what needs a log, a metric, or a
+  span, and say so in your report when you decide it needs none.
+- Follow the repository's existing logger, telemetry SDK, and error reporter over any
+  better default. A new telemetry dependency needs my approval.
+- Never put secrets, tokens, credentials, full request bodies, or PII in a log field, span
+  attribute, metric label, or error report.
+- For levels, cardinality, naming, propagation, and alerting, use the
+  `instrument-code-change` skill.
+
 ## Ruby and Rails
 
 - When working in a Ruby or Rails repository, run Rubocop on the files you changed and
