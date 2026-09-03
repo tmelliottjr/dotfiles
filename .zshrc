@@ -86,6 +86,14 @@ alias squash='merge-squash'
 alias reload='source ~/.zshrc'
 
 # ---------------------------------------------------------
+# Go
+# ---------------------------------------------------------
+# Where `go install` writes binaries (1up, etc.)
+GO_BIN_DIR="${GOBIN:-${GOPATH:-$HOME/go}/bin}"
+[ -d "$GO_BIN_DIR" ] && export PATH="$GO_BIN_DIR:$PATH"
+unset GO_BIN_DIR
+
+# ---------------------------------------------------------
 # fzf
 # ---------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

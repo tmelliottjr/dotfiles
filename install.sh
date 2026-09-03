@@ -136,6 +136,71 @@ install_eza() {
   fi
 }
 
+# --- 1up MCP server -----------------------------------------
+register_1up_mcp() {
+  local bin_path="$1"
+  local config="$HOME/.copilot/mcp-config.json"
+
+  if ! command -v jq >/dev/null 2>&1; then
+    warn "jq not found — add 1up to $config manually"
+    return
+  fi
+
+  mkdir -p "$HOME/.copilot"
+  [ -s "$config" ] || echo '{"mcpServers":{}}' > "$config"
+
+  local tmp
+  tmp="$(mktemp)"
+
+  # Copilot CLI prefixes every tool with the server key, and some providers reject
+  # tool names starting with a digit, so key on "oneup" and drop any legacy "1up" key.
+  if jq --arg cmd "$bin_path" '
+        .mcpServers //= {}
+        | del(.mcpServers["1up"])
+        | .mcpServers.oneup = { type: "local", command: $cmd, args: [], tools: ["*"] }
+      ' "$config" > "$tmp"; then
+    mv "$tmp" "$config"
+    ok "Registered 1up MCP server in $config"
+  else
+    rm -f "$tmp"
+    warn "Could not update $config — add 1up manually"
+  fi
+}
+
+install_1up() {
+  if ! command -v go >/dev/null 2>&1; then
+    warn "Go not found — skipping 1up MCP server (install from https://go.dev/dl/)"
+    return
+  fi
+
+  local goprivate
+  goprivate="$(go env GOPRIVATE)"
+  case ",$goprivate," in
+    *",github.com/github/*,"*)
+      ok "GOPRIVATE already covers github.com/github/*"
+      ;;
+    *)
+      # github/1up is private, so the module must bypass the public proxy and sum DB.
+      go env -w GOPRIVATE="${goprivate:+$goprivate,}github.com/github/*"
+      ok "Added github.com/github/* to GOPRIVATE"
+      ;;
+  esac
+
+  local gobin
+  gobin="$(go env GOBIN)"
+  [ -n "$gobin" ] || gobin="$(go env GOPATH)/bin"
+
+  info "Installing 1up..."
+  if go install github.com/github/1up@latest; then
+    ok "1up installed to $gobin/1up"
+  else
+    warn "go install github.com/github/1up@latest failed — check access to github/1up"
+    return
+  fi
+
+  register_1up_mcp "$gobin/1up"
+}
+
 # --- Symlinks -----------------------------------------------
 create_symlinks() {
   info "Creating symlinks..."
@@ -229,6 +294,7 @@ main() {
   install_fzf
   install_eza
   install_brewfile
+  install_1up
   create_symlinks
   setup_scripts
   set_default_shell
