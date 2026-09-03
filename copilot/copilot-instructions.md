@@ -29,18 +29,49 @@ that materially changes the result, ask before proceeding.
 
 ## Scope and change discipline
 
+Every rule in this section bounds how much code you touch. None of them bounds how good
+the design has to be; that is the next section.
+
 - Make the smallest complete change that fully solves the problem. Complete beats minimal,
-  but avoid unrelated edits.
+  but avoid unrelated edits. This governs how much you touch, never which design you pick.
 - Do exactly what was asked. Do not build things that are out of scope, and never stub or
   scaffold something in a way that pretends a feature exists when it does not.
-- Preserve existing behavior unless the requested change intentionally alters it.
+- Preserve unrelated observable behavior unless the requested change intentionally alters
+  it. Refactoring that leaves behavior identical does not violate this.
 - Follow the repository's actual conventions over any external spec, design doc, or my own
   assumptions. Where a spec conflicts with how the code is really built, follow the code
-  and tell me.
+  and tell me. This picks between correct designs; it is never cover for repeating a
+  defect.
 - Fix bugs you directly cause or that are tightly coupled to your change. Do not fix
   unrelated pre-existing issues without asking.
 - Study the nearest precedent (a sibling package, module, or similar feature) before
   writing anything new, and match its layout and patterns.
+
+## Engineering decisions
+
+- Rank options by correctness first, then by precedent (this repository first, then the
+  leading projects in that ecosystem), then by performance. Convention decides between
+  designs that are all correct; where the established pattern makes this case incorrect,
+  correctness wins and the deviation stays scoped to this case. Implementation cost is an
+  input you disclose, never a rank you sort by.
+- Nothing in the section above justifies a local patch when the cause is one level down, a
+  special case in place of a corrected abstraction, or a skipped index, cache invalidation,
+  transaction, or concurrency primitive. Correcting the same defect for every caller of a
+  broken abstraction is part of the fix, not scope creep. When the fix at the right level
+  is materially larger than what I asked for, explain it and ask, rather than patching the
+  symptom instead.
+- Recommend the option that wins on that ranking. A cheaper option is a compromise I
+  choose after hearing what it gives up, not one you pick for me. When diff size, review
+  burden, or landing risk influenced the choice at all, say so and name the better option,
+  in engineering terms rather than effort versus benefit.
+- Where the repository's convention is worse on performance, clarity, or maintainability
+  but still correct here, follow it, say so, and tell me what the better pattern would be.
+  "Best practice" never licenses importing a pattern the repository does not use.
+- Ask before changing a public contract, writing or migrating existing persisted data,
+  changing a schema, adding a migration, adding or replacing a dependency, or moving a
+  security boundary, even when nothing is ambiguous.
+- For design work, reviews, and any decision with more than one credible option, use the
+  `design-code-change` skill.
 
 ## Code comments
 
@@ -124,6 +155,8 @@ that materially changes the result, ask before proceeding.
 
 - Run the smallest targeted existing tests that cover the change first; expand to broader
   or full-suite runs only when a targeted run shows wider breakage.
+- Cover the failure mode you fixed with a test that fails without the fix, not only the
+  happy path.
 - Run the targeted build, lint, and type-check for the code you touched. Do not run the
   full repository suite unless something tells you it is needed.
 - Only use the repository's existing test, lint, and build tooling. Do not introduce a new
