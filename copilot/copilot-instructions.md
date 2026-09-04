@@ -77,26 +77,56 @@ the design has to be; that is the next section.
 
 - Prefer clear naming and structure. Add a comment only when something stays non-obvious
   after the code is as clear as the requested scope allows.
-- Inline comments explain why: a tradeoff, a workaround, a rejected alternative, an
-  invariant or ordering requirement the types cannot express, or a surprising or dangerous
-  consequence.
-- Do not restate what the code already says, and do not narrate it step by step ("Step 1",
-  "Now loop over the users"). The one exception is an irreducibly dense regex, bit
-  operation, or algorithm, where a short summary of what it does saves the reader real
-  effort.
-- No storytelling. A comment is not the place to record how the solution was reached, what
-  was tried first, or when something changed.
+- Every explanatory comment needs a purpose from this list, or it gets deleted: an external
+  constraint the reader cannot see from here, an invariant or ordering the types cannot
+  express, a non-local hazard, a magic value with an external source, what a dense encoding
+  computes, a workaround with its removal trigger, a rejected alternative a reader would
+  otherwise try, a required local exception, or a public API contract. Required legal and
+  license notices, generated-file markers, compiler and tool directives, repository-mandated
+  comments, and tracked `TODO:` comments are exempt.
+- Keep the minimum facts that make the purpose actionable. A comment may carry its cause,
+  consequence, scope, or removal trigger when the purpose needs them. Drop every fact
+  serving a different purpose, however true or interesting.
+- Delete the comment anyway when the name, the signature, the language, or code within a few
+  lines already says it. Rename or extract instead of commenting when that fits the scope.
+- One line for a declaration, assignment, or call; two for a block, branch, or function
+  body; three for a dense encoding, formula, or externally mandated rule. Prefer a comment
+  shorter than the code it sits on, but do not treat that as a hard cap: no rename can
+  encode an external obligation. Never a second paragraph outside API documentation.
+- Do not restate what the code already says, do not explain the language, and do not narrate
+  step by step ("Step 1", "Now loop over the users").
+- Do not narrate the inverse of the code. A counterfactual is allowed only when it supplies
+  the consequence a listed purpose needs to be actionable; name the concrete failure and the
+  symbol or data it affects.
+- No process defense: not why a file was chosen, what a reviewer questioned, or how the
+  implementation was reached. A durable local constraint is different and belongs beside the
+  code, including the reason for any lint suppression or untyped boundary.
+- No ornamental construction: no "not X, but Y", no "which is all it takes", no repeated
+  parallel clauses, no closing aphorism. Colons and negation are fine when they are the
+  shortest clear way to state the reason. No decorative metaphor, though conventional
+  technical verbs are fine. No personification; code does not know, want, care, or refuse.
+  No judgment adverbs, and never "deliberately" or "on purpose". Where a reader might
+  mistake the code for a bug, say what breaks if they "fix" it.
+- Name symbols rather than positions. No "below", "above", or "the block that follows".
+- Nothing that only makes sense to someone who watched the work happen.
 - Use clear, concise, simple language, with no "I" or "we".
-- API documentation is a separate case from the rules above. On public or exported API,
-  document the caller-visible contract (behavior, constraints, side effects, errors) in the
-  language's required convention and voice, even when the implementation looks obvious. Do
-  not paraphrase the signature, and skip short private helpers with self-describing names.
+- API documentation has the fixed purpose of recording the caller-visible contract. It is
+  exempt from the delete checks and the length budget, but the voice rules and the bans on
+  restating the code and on process defense still apply. Document behavior, constraints,
+  side effects, and errors in the language's required convention, even when the
+  implementation looks obvious. Do not paraphrase the signature, skip short private helpers
+  with self-describing names, and use as many sentences and paragraphs as the contract needs.
+- In tests prefer test and fixture names over prose. Never comment generated output; change
+  the generator. Do not narrate each YAML key, Dockerfile instruction, or shell line.
 - Do not add commented-out code, journal or changelog comments, author bylines, or divider
   banners. Preserve required legal, license, and generated-file notices.
 - Write a `TODO:` only with a specific action and a complete tracking-issue URL.
-- Update or delete any comment that your change makes inaccurate.
+- Update or delete any comment that your change makes inaccurate, including comments near
+  your change that you did not edit.
 - Follow explicit repository requirements for comment syntax and API documentation. Do not
   copy unnecessary comment density from surrounding code.
+- For the full rules, the patterns to reject, and worked rewrites, use the
+  `write-code-comments` skill.
 
 ## Git and pull requests
 
