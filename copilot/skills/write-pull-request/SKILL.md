@@ -60,8 +60,16 @@ pull requests. Never grow the description to compensate for a large diff.
 - **No metaphor, imagery, or rhetorical build.** Write "the arrow keys now reach
   the paging placeholders", not "every place a reader can end up is a place the
   keyboard reaches".
+- **No personification.** Code does not know, want, care, decide, refuse, or feel
+  anything. Write "the reducer ignores drag state", not "the reducer does not
+  care about drag state".
 - **No bolded thesis followed by an argument.** That is an essay. A pull request
   states the decision in a sentence and moves on.
+- **No defending against objections nobody raised.** Do not argue for a choice
+  the reviewer has not questioned. State the decision and the constraint that
+  forced it, and let review ask for the rest.
+- **Say it once.** No "in other words", "put differently", "essentially". A
+  sentence that needs restating was wrong the first time.
 - **Present tense, active voice, describing the code as it is now.** Not "was
   investigated", "was deliberately not adopted", "has been made concrete".
 - **No conversational filler.** No "Hey team", "So basically", "I was thinking",
@@ -76,6 +84,33 @@ pull requests. Never grow the description to compensate for a large diff.
   apologies.
 - **Stand alone.** Never make the body just a ticket link. Link the issue *and*
   summarize it in a sentence.
+
+## Lists
+
+Long paragraphs are hard to scan. Prose carries one idea. Anything countable goes
+in a list.
+
+- **Break every enumeration out of the sentence.** Two or more items,
+  conditions, changes, or affected areas become bullets under a one-line lead-in
+  ending in a colon. Do not run them inline behind "and" or behind a colon.
+- **Keep bullets as fragments.** No repeated lead-in words, no trailing periods,
+  one line each.
+- **Leave the rest of the prose outside the list,** in its own short paragraph
+  after it.
+- **Do not bullet a single item,** and do not split one idea across bullets to
+  look structured.
+- **Never nest.** One level only. A sub-bullet means the parent is two items.
+- The budget still applies: five bullets at most, one sentence each.
+
+> ❌ Adds the remaining keyboard focus positions to the board: the three paging
+> placeholders and each swimlane name.
+>
+> ✅
+>
+> > Adds the remaining keyboard focus positions to the board:
+> >
+> > - paging placeholders
+> > - swimlane names
 
 ## Title
 
@@ -210,9 +245,14 @@ it.
 > the board is a place the keyboard reaches, and it reports what they are
 > touching.
 
-> ✅ Adds the remaining keyboard focus positions to the board: the three paging
-> placeholders and each swimlane name. Builds on `<link>`, which added the roving
-> focus framework.
+> ✅
+>
+> > Adds the remaining keyboard focus positions to the board:
+> >
+> > - paging placeholders
+> > - swimlane names
+> >
+> > Builds on `<link>`, which added the roving focus framework.
 
 **Design decision**
 
@@ -326,11 +366,13 @@ stacked PRs rather than writing a longer description to compensate.
 - [ ] The repository's PR template was used, and each of its questions answered
       in 2 sentences or 3 bullets at most.
 - [ ] Body prose is under 200 words. No paragraph runs past 2 sentences.
+- [ ] Every enumeration of two or more items is a bulleted list, not inline prose.
 - [ ] Body says what changed and why, and does not restate the diff.
 - [ ] Nothing describes how the work was done: no attempts, no review findings,
       no fixes made in response to feedback, no test counts or CI output.
-- [ ] No metaphor, no bolded thesis paragraphs, no conversational filler, no em
-      dashes.
+- [ ] No metaphor, no personification, no bolded thesis paragraphs, no
+      conversational filler, no em dashes.
+- [ ] Nothing defends a choice against an objection nobody raised.
 - [ ] Prior art linked where it saves the reviewer context, with one line of why.
 - [ ] Issue linked, with a closing keyword when the PR targets the default
       branch.

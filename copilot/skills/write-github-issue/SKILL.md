@@ -18,6 +18,23 @@ problem or goal and what "done" looks like, then stop.
 
 - **Concise and to the point.** Every line earns its place. Prefer tight bullets
   over paragraphs.
+- **Break every enumeration out of the sentence.** Two or more symptoms,
+  conditions, affected areas, or outcomes become bullets under a one-line lead-in
+  ending in a colon. Do not run them inline behind "and" or behind a colon.
+  Bullets stay fragments: no repeated lead-in words, no trailing periods, one
+  line each, one level deep.
+
+  > ❌ Uploads fail for files over 100 MB, for files with non-ASCII names, and
+  > when the session token has expired.
+  >
+  > ✅
+  >
+  > > Uploads fail in three cases:
+  > >
+  > > - files over 100 MB
+  > > - non-ASCII file names
+  > > - expired session token
+
 - **What and why, not how.** Describe the problem or desired outcome. Do not
   prescribe specific implementation details, file names, function signatures, or
   a step-by-step solution. Leave the approach to whoever picks up the issue.
@@ -25,6 +42,12 @@ problem or goal and what "done" looks like, then stop.
   someone new to the code can understand it.
 - **No conversational phrases.** Drop openers and filler such as "Hey", "So
   basically", "I was thinking", "Could we maybe", "Just a quick one".
+- **No rhetorical construction.** No reversals ("not X, but Y"), no closing
+  clauses built to land. State the problem flat: "Login fails when the email
+  contains a plus sign", not "The form accepts the address, but the lookup never
+  finds it".
+- **No personification and no judgment adverbs.** Code does not know, want, or
+  care. Drop "deliberately", "simply", "obviously", "clearly".
 - **No em dashes.** Use commas, parentheses, or separate sentences.
 - **No lengthy explanations or elaboration.** If a section needs more than a few
   sentences, it is probably two issues.
@@ -99,7 +122,9 @@ One sentence describing the expected behavior.
 
 - [ ] No prescribed implementation details; the issue says what and why, not how.
 - [ ] No conversational phrases or filler.
+- [ ] No rhetorical construction, personification, or judgment adverbs.
 - [ ] No jargon and no em dashes.
 - [ ] Each section is a few sentences or tight bullets at most.
+- [ ] Every enumeration of two or more items is a bulleted list, not inline prose.
 - [ ] Title is short and specific.
 - [ ] Any repository issue template was followed.

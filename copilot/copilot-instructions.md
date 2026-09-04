@@ -151,6 +151,11 @@ the design has to be; that is the next section.
 - Keep body prose under 200 words. No paragraph over two sentences, no bullet over
   one sentence, no list over five bullets. If it will not fit, split the pull
   request instead of growing the description.
+- Long paragraphs go unread. Break every enumeration out of the sentence: two or
+  more items, conditions, or affected areas become bullets under a one-line
+  lead-in ending in a colon, never run inline behind "and". Bullets stay
+  fragments, one line each, one level deep, with the rest of the prose in its own
+  short paragraph after the list.
 - Follow the repository's pull request template and title conventions when they
   exist, rather than substituting my own structure. Answer each template question
   in at most two sentences or three bullets, then stop.
@@ -178,6 +183,9 @@ the design has to be; that is the next section.
 - Describe what and why, not how. Do not prescribe specific implementation details;
   leave the approach to whoever picks up the issue.
 - No conversational phrases, jargon, em dashes, or lengthy elaboration.
+- Prefer tight bullets over paragraphs. Break every enumeration of two or more
+  symptoms, conditions, or outcomes into a bulleted list under a one-line lead-in
+  rather than running it inline.
 - Follow the repository's issue templates when they exist.
 - For a full structure and defaults, use the `write-github-issue` skill.
 
