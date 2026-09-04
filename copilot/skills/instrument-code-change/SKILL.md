@@ -2,19 +2,17 @@
 name: instrument-code-change
 description: >
   Use this skill whenever the user asks to add, review, fix, or improve logging,
-  logs, log levels, structured logging, metrics, traces, spans, telemetry,
-  monitoring, instrumentation, or observability, asks to instrument a service,
-  endpoint, handler, job, worker, or consumer, asks what to measure or what a
-  dashboard or alert should cover, asks about swallowed errors or production
-  error reporting, or is diagnosing a production failure with too little signal
-  (for example "add logging here", "instrument this", "what should I be
-  measuring", "add a metric for this", "why can't I tell what this is doing",
-  "there's nothing in the logs", "this failed in prod and I have no idea why").
-  Also use it when a change adds a service boundary, a background job, a queue
-  consumer, or an outbound dependency to code that runs in production or another
-  operational runtime, because those are the places instrumentation gets decided.
-  It picks the smallest signal that answers a real operational question, follows
-  the repository's existing telemetry over any better default, and keeps secrets,
+  log levels, metrics, traces, spans, telemetry, monitoring, instrumentation, or
+  observability, asks to instrument a service, endpoint, handler, job, worker, or
+  consumer, asks what to measure or what a dashboard or alert should cover, asks
+  about swallowed errors or production error reporting, or is diagnosing a
+  production failure with too little signal (for example "add logging here",
+  "instrument this", "what should I be measuring", "there's nothing in the logs",
+  "this failed in prod and I have no idea why"). Also use it when a change adds a
+  service boundary, background job, queue consumer, or outbound dependency to
+  production code, since those are where instrumentation gets decided. It picks
+  the smallest signal that answers a real operational question, follows the
+  repository's existing telemetry over any better default, and keeps secrets,
   PII, and unbounded cardinality out of telemetry.
 ---
 
