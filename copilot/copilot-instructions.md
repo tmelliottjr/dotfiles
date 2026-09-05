@@ -128,6 +128,31 @@ the design has to be; that is the next section.
 - For the full rules, the patterns to reject, and worked rewrites, use the
   `write-code-comments` skill.
 
+## React component documentation
+
+- Document props on the props type, one `/**` block immediately above each prop. A
+  prop typed inline in the component signature gets no generated docs, and an
+  undocumented `children` is dropped from the prop table entirely.
+- A prop doc is one sentence. A second is for a real constraint: a precedence rule
+  between props, a conflict, a validation rule, or a consequence of getting it wrong.
+  Only an accessibility obligation the caller inherits earns a third.
+- Follow the grammar the major libraries share: `Whether ...` or ``If `true`, ...``
+  for booleans, `Handler that is called when ...` for handlers, `(controlled)` and
+  `(uncontrolled)` on a value pair, `The content of the <component>.` for `children`.
+  A handler doc is a noun phrase, never an imperative.
+- Put every default in the tag the repository's docgen reads (`@default` for
+  Storybook and react-docgen-typescript, `@defaultValue` for API Extractor, TypeDoc,
+  and Radix), never in prose, and delete the prose sentence when moving it.
+- No storytelling. No scenario narration, no personification, no "you", no sensory
+  framing, no ornamental contrast, no preamble or hedging. Do not restate the prop
+  name, the type, or the component description, and keep implementation detail
+  (internal state, refs, memoization, render behavior) out of the contract.
+- Every deprecation uses `@deprecated` and names the replacement.
+- This tightens the general API documentation budget in the Code comments section
+  above, which exempts API docs from a length limit.
+- For the grammar table, the tooling constraints, the patterns to reject, and worked
+  rewrites, use the `write-react-component-docs` skill.
+
 ## Git and pull requests
 
 - Prefix branches with `tmelliottjr/` followed by a kebab-case verb-noun name, such as
