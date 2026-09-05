@@ -77,10 +77,14 @@ immediately — no reinstall needed.
 `SKILL.md`. `install.sh` symlinks them into `~/.copilot/skills/`, where Copilot
 loads them on demand when a request matches the skill's description.
 
-| Skill                 | Triggers on                                      |
-|-----------------------|--------------------------------------------------|
-| `write-github-issue`  | Writing, drafting, or filing a GitHub issue      |
-| `write-pull-request`  | Writing a PR title, description, or opening a PR |
+| Skill                        | Triggers on                                          |
+|------------------------------|------------------------------------------------------|
+| `design-code-change`         | Choosing between implementation approaches           |
+| `instrument-code-change`     | Adding logging, metrics, traces, or error reporting  |
+| `write-code-comments`        | Writing or trimming comments and docstrings          |
+| `write-github-issue`         | Writing, drafting, or filing a GitHub issue          |
+| `write-pull-request`         | Writing a PR title, description, or opening a PR     |
+| `write-react-component-docs` | Documenting React components, props, and hooks       |
 
 ### 1up MCP Server
 
