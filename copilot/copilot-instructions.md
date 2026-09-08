@@ -17,6 +17,27 @@ that materially changes the result, ask before proceeding.
   issues, pull requests, and repository operations).
 - Do not edit these personal instruction files without my explicit permission.
 
+## Posting, commenting, and replying
+
+- Never post anything another person receives as part of normal work. This covers issue
+  and pull request comments, pull request reviews and review replies, discussion posts
+  and replies, commit and gist comments, editing or deleting an existing comment, emoji
+  reactions, `@` mentions, review requests, assignments, and messages in Slack, email,
+  or any other channel.
+- These need my explicit request every time: `gh pr comment`, `gh issue comment`,
+  `gh pr review`, any `gh api` call that POSTs, PATCHes, or DELETEs a comment, review,
+  or reaction, and any MCP tool that writes to a conversation.
+- Reading is always fine. Fetch issues, pull requests, reviews, comments, and Slack
+  threads freely; the limit is writing.
+- Report to me in the session instead. Never route an answer, a status update, a review
+  response, or a question to a person through a comment.
+- Post only when I ask for that specific message, on that specific issue, pull request,
+  or thread. Draft it, show it to me, and wait for my approval before it goes out.
+- One approval covers one message. It is not standing permission for follow-ups, for
+  replies, or for a comment anywhere else.
+- When you think a comment is warranted, say so in your report and stop. Do not post it,
+  and do not resolve or dismiss a review thread on my behalf.
+
 ## GitHub CLI authentication
 
 - In a Codespace, the injected `GITHUB_TOKEN` is scoped to a single repository and `gh`
@@ -166,6 +187,8 @@ the design has to be; that is the next section.
 - Do not open a pull request unless I ask. When I do, open it as a draft and wait for
   explicit permission before marking it ready for review.
 - Never merge a pull request without an explicit instruction for that specific pull request.
+- Never comment on a pull request, submit or reply to a review, or resolve a review thread
+  unless I ask for that specific comment. See "Posting, commenting, and replying".
 - Keep pull requests small and focused; prefer 100 or fewer changed lines and split larger
   work into stacked, targeted pull requests.
 
@@ -212,6 +235,8 @@ the design has to be; that is the next section.
   symptoms, conditions, or outcomes into a bulleted list under a one-line lead-in
   rather than running it inline.
 - Follow the repository's issue templates when they exist.
+- Never comment on an issue or reply to a comment unless I ask for that specific
+  comment. See "Posting, commenting, and replying".
 - For a full structure and defaults, use the `write-github-issue` skill.
 
 ## Testing and validation

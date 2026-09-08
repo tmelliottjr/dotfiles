@@ -341,8 +341,8 @@ it.
    `--base` for a stacked or non-default target branch. Add `--reviewer`,
    `--label`, or `--assignee` only when asked. Return the full
    `https://github.com/...` PR URL.
-10. **Do not mark it ready for review** and do not merge it without an explicit
-    instruction for that specific PR.
+10. **Do not mark it ready for review**, do not merge it, and do not comment on it
+    without an explicit instruction for that specific PR.
 
 ## Updating an existing PR
 
@@ -352,6 +352,22 @@ it.
   `gh pr view <number> --json title,body`, and preserve template sections and
   anything the user wrote by hand.
 - Update with `gh pr edit <number> --title "<title>" --body-file <path>`.
+
+## Comments and review replies
+
+This skill writes the PR title and body. It never posts a comment.
+
+- **Do not post a PR comment, submit or reply to a review, resolve a review thread,
+  request a review, or react.** Not to announce a push, not to answer a reviewer, not
+  to summarize what changed, not to ask a question.
+- **Reading is fine.** Fetch the PR, its reviews, and its comments for context with
+  `gh pr view <number> --json reviews,comments` or `gh pr diff`.
+- **Report to the user instead.** Say what the reviewers raised and what you changed,
+  and let the user reply.
+- **A comment is not a substitute for a current description.** When the change shifts
+  during review, edit the body with `gh pr edit`.
+- **Post only when the user asks for that specific comment.** Draft it, show it, and
+  wait for approval. One approval covers one comment.
 
 ## Size
 
@@ -379,3 +395,5 @@ stacked PRs rather than writing a longer description to compensate.
 - [ ] Testing names what was run, without results or counts.
 - [ ] Screenshots included for user-visible changes.
 - [ ] Opened as a draft, and not marked ready or merged without being asked.
+- [ ] No comment posted, no review submitted or replied to, and no review thread
+      resolved.

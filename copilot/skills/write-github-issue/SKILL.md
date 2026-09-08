@@ -118,6 +118,19 @@ One sentence describing the expected behavior.
    Add `--label`, `--assignee`, `--milestone`, or `--repo` only when the user
    asks. Return the full `https://github.com/...` issue URL.
 
+## Comments and replies
+
+This skill files issues. It does not comment on them.
+
+- **Do not comment on an issue, reply to a comment, react, assign, or `@` mention
+  anyone.** This holds even when the answer seems useful to whoever is on the thread.
+- **Reading is fine.** Fetch an issue and its comments for context with
+  `gh issue view <number> --comments`.
+- **A comment is not a substitute for filing.** When the content belongs on an
+  existing issue rather than a new one, say so in your answer and let the user decide.
+- **Comment only when the user asks for that specific comment.** Draft it, show it,
+  and wait for approval. One approval covers one comment.
+
 ## Before you finish (checklist)
 
 - [ ] No prescribed implementation details; the issue says what and why, not how.
@@ -128,3 +141,5 @@ One sentence describing the expected behavior.
 - [ ] Every enumeration of two or more items is a bulleted list, not inline prose.
 - [ ] Title is short and specific.
 - [ ] Any repository issue template was followed.
+- [ ] Nothing posted as a comment or reply, and the issue was filed only after
+      approval.
