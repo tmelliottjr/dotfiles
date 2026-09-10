@@ -95,7 +95,10 @@ Kusto, PagerDuty, Sentry, Slack, and Splunk MCP servers.
 `install.sh` adds `github.com/github/*` to `GOPRIVATE` (the repo is private), runs
 `go install github.com/github/1up@latest`, and registers the binary in
 `~/.copilot/mcp-config.json` under the key `oneup`. Restart Copilot CLI afterward
-to pick up the server. Re-running `install.sh` upgrades it.
+to pick up the server. The configuration forwards `GITHUB_TOKEN` by environment
+variable reference because Copilot CLI does not automatically pass it to local
+MCP servers. Re-running `install.sh` upgrades the server and preserves this
+authentication setup without storing the token.
 
 The key is `oneup` rather than `1up` because Copilot CLI prefixes tool names with
 the server key, and some model providers reject tool names starting with a digit.
