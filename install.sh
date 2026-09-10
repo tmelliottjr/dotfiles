@@ -216,8 +216,8 @@ create_symlinks() {
   ln -sf "$DOTFILES_ROOT/starship.toml" "$HOME/.config/starship.toml"
   ln -sf "$DOTFILES_ROOT/.gitconfig"   "$HOME/.gitconfig"
   ln -sf "$DOTFILES_ROOT/.tmux.conf"   "$HOME/.tmux.conf"
-  ln -sf "$DOTFILES_ROOT/nvim"         "$HOME/.config/nvim"
-  ln -sf "$DOTFILES_ROOT/television"   "$HOME/.config/television"
+  ln -sfn "$DOTFILES_ROOT/nvim"         "$HOME/.config/nvim"
+  ln -sfn "$DOTFILES_ROOT/television"   "$HOME/.config/television"
 
   mkdir -p "$HOME/.zsh/completions"
   ln -sf "$DOTFILES_ROOT/_sesh"        "$HOME/.zsh/completions/_sesh"
