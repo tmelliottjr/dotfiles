@@ -157,7 +157,13 @@ register_1up_mcp() {
   if jq --arg cmd "$bin_path" '
         .mcpServers //= {}
         | del(.mcpServers["1up"])
-        | .mcpServers.oneup = { type: "local", command: $cmd, args: [], tools: ["*"] }
+        | .mcpServers.oneup = {
+            type: "local",
+            command: $cmd,
+            args: [],
+            env: { GITHUB_TOKEN: "${GITHUB_TOKEN}" },
+            tools: ["*"]
+          }
       ' "$config" > "$tmp"; then
     mv "$tmp" "$config"
     ok "Registered 1up MCP server in $config"
