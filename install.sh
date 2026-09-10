@@ -287,7 +287,41 @@ install_brewfile() {
 }
 
 # --- Main ---------------------------------------------------
+usage() {
+  cat <<'EOF'
+Usage: install.sh [--symlinks-only]
+
+  (no options)      Full install: packages, tools, symlinks, and shell setup.
+  --symlinks-only   Refresh symlinks and script permissions only. Use this to
+                    pick up new or renamed files (such as a Copilot skill) in an
+                    environment that is already set up, without re-running the
+                    package and network steps.
+  -h, --help        Show this message.
+EOF
+}
+
 main() {
+  case "${1:-}" in
+    --symlinks-only)
+      create_symlinks
+      setup_scripts
+      echo ""
+      ok "Symlinks refreshed. Restart your Copilot session to load new skills."
+      return
+      ;;
+    -h|--help)
+      usage
+      return
+      ;;
+    "") ;;
+    *)
+      err "Unknown option: $1"
+      echo ""
+      usage
+      return 1
+      ;;
+  esac
+
   echo "==========================================================="
   echo "                  Installing dotfiles                      "
   echo "==========================================================="
