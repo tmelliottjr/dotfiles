@@ -9,7 +9,7 @@ Personal dotfiles for macOS and GitHub Codespaces.
 | `.zshrc`          | Shell config — aliases, plugins, functions     |
 | `.gitconfig`      | Git settings — editor, aliases, merge/pull     |
 | `starship.toml`   | Starship prompt theme (Catppuccin Mocha)       |
-| `Brewfile`        | macOS packages (via `brew bundle`)             |
+| `Brewfile`        | macOS app manifest (via `brew bundle`)          |
 | `scripts/`        | Custom CLI scripts (see below)                 |
 | `copilot/`        | Copilot config — global custom instructions    |
 | `install.sh`      | Installer — works on macOS and Codespaces      |
@@ -30,15 +30,35 @@ runs automatically.
 
 ## What `install.sh` Does
 
-1. Installs [Oh-My-Zsh](https://ohmyz.sh/) + plugins (autosuggestions, syntax highlighting, zsh-nvm)
-2. Installs [Starship](https://starship.rs/) prompt
-3. Installs [NVM](https://github.com/nvm-sh/nvm)
-4. Installs [fzf](https://github.com/junegunn/fzf) (fuzzy finder)
-5. Installs [eza](https://eza.rocks/) (modern `ls`)
-6. Symlinks config files to `$HOME`
-7. Installs the [1up](https://github.com/github/1up) MCP server and registers it with Copilot CLI
-8. Sets zsh as the default shell
-9. On macOS: runs `brew bundle` for Brewfile packages
+1. On macOS: installs [Homebrew](https://brew.sh/) when needed
+2. On macOS: installs the apps declared in `Brewfile`
+3. Installs [Oh-My-Zsh](https://ohmyz.sh/) + plugins (autosuggestions, syntax highlighting, zsh-nvm)
+4. Installs [Starship](https://starship.rs/) prompt
+5. Installs [NVM](https://github.com/nvm-sh/nvm)
+6. Installs [fzf](https://github.com/junegunn/fzf) (fuzzy finder)
+7. Installs [eza](https://eza.rocks/) (modern `ls`)
+8. Symlinks config files to `$HOME`
+9. Installs the [1up](https://github.com/github/1up) MCP server and registers it with Copilot CLI
+10. Sets zsh as the default shell
+
+## macOS Apps
+
+`Brewfile` is the source of truth for apps installed on a Mac. It includes the
+GitHub CLI, Copilot CLI, kubectl, and the tools used by these dotfiles.
+
+Edit the file directly, or use Homebrew Bundle:
+
+```bash
+brew bundle add <formula>
+brew bundle add --cask <application>
+brew bundle remove <formula-or-application>
+```
+
+Apply changes without reinstalling the dotfiles:
+
+```bash
+brew bundle --no-upgrade --file="$HOME/.dotfiles/Brewfile"
+```
 
 ## Scripts
 
