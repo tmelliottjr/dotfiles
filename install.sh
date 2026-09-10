@@ -325,8 +325,8 @@ create_symlinks() {
   ln -sf "$DOTFILES_ROOT/starship.toml" "$HOME/.config/starship.toml"
   ln -sf "$DOTFILES_ROOT/.gitconfig"   "$HOME/.gitconfig"
   ln -sf "$DOTFILES_ROOT/.tmux.conf"   "$HOME/.tmux.conf"
-  ln -sf "$DOTFILES_ROOT/nvim"         "$HOME/.config/nvim"
-  ln -sf "$DOTFILES_ROOT/television"   "$HOME/.config/television"
+  ln -sfn "$DOTFILES_ROOT/nvim"         "$HOME/.config/nvim"
+  ln -sfn "$DOTFILES_ROOT/television"   "$HOME/.config/television"
 
   mkdir -p "$HOME/.zsh/completions"
   ln -sf "$DOTFILES_ROOT/_sesh"        "$HOME/.zsh/completions/_sesh"
@@ -385,7 +385,41 @@ set_default_shell() {
 }
 
 # --- Main ---------------------------------------------------
+usage() {
+  cat <<'EOF'
+Usage: install.sh [--symlinks-only]
+
+  (no options)      Full install: packages, tools, symlinks, and shell setup.
+  --symlinks-only   Refresh symlinks and script permissions only. Use this to
+                    pick up new or renamed files (such as a Copilot skill) in an
+                    environment that is already set up, without re-running the
+                    package and network steps.
+  -h, --help        Show this message.
+EOF
+}
+
 main() {
+  case "${1:-}" in
+    --symlinks-only)
+      create_symlinks
+      setup_scripts
+      echo ""
+      ok "Symlinks refreshed. Restart your Copilot session to load new skills."
+      return
+      ;;
+    -h|--help)
+      usage
+      return
+      ;;
+    "") ;;
+    *)
+      err "Unknown option: $1"
+      echo ""
+      usage
+      return 1
+      ;;
+  esac
+
   echo "==========================================================="
   echo "                  Installing dotfiles                      "
   echo "==========================================================="

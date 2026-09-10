@@ -28,6 +28,24 @@ For **Codespaces**, set this repo as your dotfiles in
 [GitHub settings](https://github.com/settings/codespaces) — `install.sh`
 runs automatically.
 
+### Updating an existing machine or Codespace
+
+`install.sh` runs once when a Codespace is created, so a Codespace that is
+already running will not see new commits. Pull, then relink:
+
+```bash
+git -C "$DOTFILES_ROOT" pull
+"$DOTFILES_ROOT/install.sh" --symlinks-only
+```
+
+`$DOTFILES_ROOT` is exported by `.zshrc` and resolves to `~/.dotfiles` locally
+and `/workspaces/.codespaces/.persistedshare/dotfiles` in a Codespace.
+
+Edits to files that are already symlinked apply as soon as they are pulled.
+`--symlinks-only` is what picks up a file that has no symlink yet, such as a
+newly added Copilot skill, and it skips the package and network steps. Restart
+your Copilot session afterward, since skills load at session start.
+
 ## What `install.sh` Does
 
 1. On macOS: installs [Homebrew](https://brew.sh/) when needed
@@ -120,16 +138,20 @@ immediately — no reinstall needed.
 
 `copilot/skills/` holds personal Copilot skills, each in its own directory with a
 `SKILL.md`. `install.sh` symlinks them into `~/.copilot/skills/`, where Copilot
-loads them on demand when a request matches the skill's description.
+loads them on demand when a request matches the skill's description. Adding a
+skill needs no installer edit, but `./install.sh --symlinks-only` has to run
+before Copilot can see it.
 
 | Skill                        | Triggers on                                          |
 |------------------------------|------------------------------------------------------|
 | `design-code-change`         | Choosing between implementation approaches           |
+| `design-data-schema`         | Designing schemas, indexes, and migrations           |
 | `instrument-code-change`     | Adding logging, metrics, traces, or error reporting  |
 | `write-code-comments`        | Writing or trimming comments and docstrings          |
 | `write-github-issue`         | Writing, drafting, or filing a GitHub issue          |
 | `write-pull-request`         | Writing a PR title, description, or opening a PR     |
 | `write-react-component-docs` | Documenting React components, props, and hooks       |
+| `write-technical-report`     | Writing a design proposal, analysis, or findings     |
 
 ### 1up MCP Server
 

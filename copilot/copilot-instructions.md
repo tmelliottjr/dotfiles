@@ -239,6 +239,53 @@ the design has to be; that is the next section.
   comment. See "Posting, commenting, and replying".
 - For a full structure and defaults, use the `write-github-issue` skill.
 
+## Technical reports and analysis
+
+These apply to every written technical deliverable that is not code, a pull request, an
+issue, or a comment: design and schema proposals, architecture writeups, options
+comparisons, investigations, findings summaries, and the report at the end of every task.
+
+- Lead with the conclusion. The recommendation or finding goes in the first two
+  sentences. Background, alternatives, and supporting detail come after.
+- No changelog of the work. Describe the design as it stands, with no attempts, no
+  reconsiderations, no files read, and no tools used. A rejected option is stated as a
+  rejected option with its reason, never as a step in a story.
+- No personification, judgment adverbs, self-congratulation, rhetorical construction,
+  conversational openers or sign-offs, or em dashes.
+- No hedging. State the claim, or move it to a numbered open question with the default
+  you will take if I do not answer.
+- Break every enumeration of two or more items into bullets or a table. No paragraph over
+  three sentences, and no section that restates another.
+- Every claim carries its evidence (a number, a full `https://github.com/...` link, a
+  query plan, a constraint, or a named precedent). Never invent a name or a figure to
+  fill a gap; ask instead.
+- Name anything unverified or assumed, in one line, near the claim that rests on it.
+- Recommend the option that wins. A neutral menu with no pick is unfinished.
+- For structures, the patterns to reject, and worked rewrites, use the
+  `write-technical-report` skill.
+
+## Data and schema design
+
+- Start from the access patterns. List every read and write the feature needs, with its
+  filter, sort, and pagination, before naming a table. A schema modeled only from domain
+  nouns produces queries that scan.
+- Enforce invariants in the database. Uniqueness, foreign keys, nullability, and value
+  ranges belong in constraints; application-level checks lose under concurrency.
+- Every access pattern maps to an index, or to a full scan you state and accept. In a
+  composite index the equality columns come first, then the sort column, then the range
+  column.
+- Keep data out of a JSON or serialized column when it will be filtered, sorted, joined,
+  or constrained. JSON is for opaque payloads.
+- Ordering that users rearrange needs a rank column designed for it. Renumbering integer
+  positions on every move rewrites rows and races with concurrent moves.
+- Ship schema changes in expand-then-contract steps: additive change, backfill, switch
+  reads, then remove. Never combine adding a column, backfilling it, and reading from it
+  in one deploy.
+- Ask before changing a schema, adding a migration, or writing to existing persisted
+  data, as the "Engineering decisions" section already requires.
+- For access-pattern analysis, index design, ordering strategies, and migration safety,
+  use the `design-data-schema` skill.
+
 ## Testing and validation
 
 - Run the smallest targeted existing tests that cover the change first; expand to broader
@@ -290,7 +337,8 @@ the design has to be; that is the next section.
 
 ## Reporting back
 
-When you finish a task, report:
+The end-of-task report is a technical report and follows the "Technical reports and
+analysis" rules above. When you finish a task, report:
 
 - What changed, and confirmation that the targeted build, lint, type-check, and tests pass.
 - Where the repository's conventions differed from any spec or my request, and what you
