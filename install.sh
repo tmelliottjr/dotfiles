@@ -68,8 +68,13 @@ install_brewfile() {
   fi
 
   info "Installing apps from Brewfile..."
-  brew bundle --no-upgrade --file="$DOTFILES_ROOT/Brewfile"
-  ok "Brewfile apps installed"
+  # A cask needing an admin password or a kernel extension approval can fail, and
+  # that must not stop the symlink and shell steps that follow.
+  if brew bundle --no-upgrade --file="$DOTFILES_ROOT/Brewfile"; then
+    ok "Brewfile apps installed"
+  else
+    warn "Some Brewfile apps failed — re-run: brew bundle --file=\"$DOTFILES_ROOT/Brewfile\""
+  fi
 }
 
 # --- Oh-My-Zsh ---------------------------------------------
@@ -252,6 +257,65 @@ install_1up() {
   register_1up_mcp "$gobin/1up"
 }
 
+# --- Home lab kubeconfig ------------------------------------
+install_kubeconfig() {
+  if [[ "$OSTYPE" != "darwin"* ]] || [[ "$IS_CODESPACE" == true ]]; then
+    return
+  fi
+
+  # The /usr/local/bin symlink is mode 700 root:wheel, so go to the app bundle.
+  local ts="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+  if [[ ! -x "$ts" ]]; then
+    warn "Tailscale not found — skipping kubeconfig"
+    return
+  fi
+
+  if ! command -v jq >/dev/null 2>&1; then
+    warn "jq not found — skipping kubeconfig"
+    return
+  fi
+
+  local status
+  if ! status="$("$ts" status --json 2>/dev/null)"; then
+    warn "Tailscale is not running — skipping kubeconfig"
+    return
+  fi
+
+  if [[ "$(jq -r '.BackendState // empty' <<<"$status")" != "Running" ]]; then
+    warn "Tailscale is not logged in — log in, then re-run this script for kubeconfig"
+    return
+  fi
+
+  # The operator claims a new -N hostname each time it re-registers, leaving the
+  # earlier devices offline in the tailnet, so the live proxy is the highest N.
+  local operator
+  operator="$(jq -r '
+    [ (.Peer // {})[]
+      | select(.Online)
+      | .DNSName
+      | rtrimstr(".")
+      | select(test("^tailscale-operator(-[0-9]+)?\\."))
+      | { name: ., seq: ((capture("^tailscale-operator(-(?<n>[0-9]+))?\\.").n // "0") | tonumber) }
+    ]
+    | if length == 0 then empty else (sort_by(.seq) | last | .name) end
+  ' <<<"$status")"
+
+  if [[ -z "$operator" ]]; then
+    warn "No online tailscale-operator device — skipping kubeconfig"
+    return
+  fi
+
+  mkdir -p "$HOME/.kube"
+  chmod 700 "$HOME/.kube"
+
+  if "$ts" configure kubeconfig "$operator" >/dev/null 2>&1; then
+    [[ -f "$HOME/.kube/config" ]] && chmod 600 "$HOME/.kube/config"
+    ok "kubeconfig configured for $operator"
+  else
+    warn "Could not configure kubeconfig for $operator"
+  fi
+}
+
 # --- Symlinks -----------------------------------------------
 create_symlinks() {
   info "Creating symlinks..."
@@ -370,6 +434,7 @@ main() {
   install_fzf
   install_eza
   install_1up
+  install_kubeconfig
   create_symlinks
   setup_scripts
   set_default_shell
