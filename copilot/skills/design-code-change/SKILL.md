@@ -7,10 +7,13 @@ description: >
   approach, asks which option to pick, or asks for a review, critique, or second
   opinion on a design or an implementation (for example "how should I do this",
   "what's the best way", "which approach", "design this", "refactor this", "is
-  this the right way", "compare these options", "review this design"). It ranks
-  options by correctness, then by real precedent in the repository and the
-  ecosystem, then by performance, and it forces implementation cost to be stated
-  as a tradeoff rather than used as the deciding factor.
+  this the right way", "compare these options", "review this design"). It
+  applies equally when the deliverable is a written proposal and no code is
+  written, including a data model, database schema, table layout, index, or
+  query access pattern. It ranks options by correctness, then by real precedent
+  in the repository and the ecosystem, then by performance, and it forces
+  implementation cost to be stated as a tradeoff rather than used as the
+  deciding factor.
 ---
 
 # Designing a Code Change
