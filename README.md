@@ -39,7 +39,8 @@ runs automatically.
 7. Installs [eza](https://eza.rocks/) (modern `ls`)
 8. Symlinks config files to `$HOME`
 9. Installs the [1up](https://github.com/github/1up) MCP server and registers it with Copilot CLI
-10. Sets zsh as the default shell
+10. On macOS: regenerates `~/.kube/config` for the home lab cluster (see below)
+11. Sets zsh as the default shell
 
 ## macOS Apps
 
@@ -59,6 +60,30 @@ Apply changes without reinstalling the dotfiles:
 ```bash
 brew bundle --no-upgrade --file="$HOME/.dotfiles/Brewfile"
 ```
+
+## Home Lab Kubeconfig
+
+`install.sh` regenerates `~/.kube/config` instead of restoring a saved copy. The
+[tmelliottjr/homeserver](https://github.com/tmelliottjr/homeserver) cluster is reached
+through the Tailscale Kubernetes operator's API server proxy, which authorizes by
+tailnet identity. The kubeconfig holds no secret, so there is nothing to back up.
+
+The operator claims a new `tailscale-operator-N` hostname each time it re-registers,
+so the installer discovers the highest-numbered online operator device rather than
+pinning a name that goes stale.
+
+Requirements, both of which the installer degrades gracefully without:
+
+- Tailscale installed (via `Brewfile`) and logged in, which is a one-time browser flow
+- An online operator device, meaning the cluster is up
+
+Re-run it on its own at any time:
+
+```bash
+~/.dotfiles/install.sh
+```
+
+Other kubeconfig contexts are left untouched.
 
 ## Scripts
 
