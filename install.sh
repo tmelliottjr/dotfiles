@@ -27,6 +27,51 @@ info "OS:        $OSTYPE"
 info "Codespace: $IS_CODESPACE"
 echo ""
 
+# --- Homebrew ----------------------------------------------
+install_homebrew() {
+  if [[ "$OSTYPE" != "darwin"* ]] || [[ "$IS_CODESPACE" == true ]]; then
+    return
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    ok "Homebrew already installed"
+  else
+    info "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ok "Homebrew installed"
+  fi
+
+  local brew_bin
+  if command -v brew >/dev/null 2>&1; then
+    brew_bin="$(command -v brew)"
+  elif [[ -x /opt/homebrew/bin/brew ]]; then
+    brew_bin="/opt/homebrew/bin/brew"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    brew_bin="/usr/local/bin/brew"
+  else
+    err "Homebrew installed, but brew was not found"
+    return 1
+  fi
+
+  eval "$("$brew_bin" shellenv)"
+}
+
+# --- macOS apps --------------------------------------------
+install_brewfile() {
+  if [[ "$OSTYPE" != "darwin"* ]] || [[ "$IS_CODESPACE" == true ]]; then
+    return
+  fi
+
+  if [[ ! -f "$DOTFILES_ROOT/Brewfile" ]]; then
+    err "Brewfile not found at $DOTFILES_ROOT/Brewfile"
+    return 1
+  fi
+
+  info "Installing apps from Brewfile..."
+  brew bundle --no-upgrade --file="$DOTFILES_ROOT/Brewfile"
+  ok "Brewfile apps installed"
+}
+
 # --- Oh-My-Zsh ---------------------------------------------
 install_omz() {
   if [ -d "$HOME/.oh-my-zsh" ]; then
@@ -275,17 +320,6 @@ set_default_shell() {
   fi
 }
 
-# --- macOS extras (Brewfile) --------------------------------
-install_brewfile() {
-  if [[ "$OSTYPE" == "darwin"* ]] && command -v brew >/dev/null 2>&1; then
-    if [ -f "$DOTFILES_ROOT/Brewfile" ]; then
-      info "Running brew bundle..."
-      brew bundle --file="$DOTFILES_ROOT/Brewfile"
-      ok "Brewfile packages installed"
-    fi
-  fi
-}
-
 # --- Main ---------------------------------------------------
 usage() {
   cat <<'EOF'
@@ -327,13 +361,14 @@ main() {
   echo "==========================================================="
   echo ""
 
+  install_homebrew
+  install_brewfile
   install_omz
   install_omz_plugins
   install_starship
   install_nvm
   install_fzf
   install_eza
-  install_brewfile
   install_1up
   create_symlinks
   setup_scripts
