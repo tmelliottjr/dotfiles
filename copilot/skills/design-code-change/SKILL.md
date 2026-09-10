@@ -9,9 +9,8 @@ description: >
   "what's the best way", "which approach", "design this", "refactor this", "is
   this the right way", "compare these options", "review this design"). It
   applies equally when the deliverable is a written proposal and no code is
-  written, including a data model, database schema, table layout, index, or
-  query access pattern. It ranks options by correctness, then by real precedent
-  in the repository and the ecosystem, then by performance, and it forces
+  written. It ranks options by correctness, then by real precedent in the
+  repository and the ecosystem, then by performance, and it forces
   implementation cost to be stated as a tradeoff rather than used as the
   deciding factor.
 ---
