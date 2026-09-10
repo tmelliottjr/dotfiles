@@ -68,8 +68,13 @@ install_brewfile() {
   fi
 
   info "Installing apps from Brewfile..."
-  brew bundle --no-upgrade --file="$DOTFILES_ROOT/Brewfile"
-  ok "Brewfile apps installed"
+  # A cask needing an admin password or a kernel extension approval can fail, and
+  # that must not stop the symlink and shell steps that follow.
+  if brew bundle --no-upgrade --file="$DOTFILES_ROOT/Brewfile"; then
+    ok "Brewfile apps installed"
+  else
+    warn "Some Brewfile apps failed — re-run: brew bundle --file=\"$DOTFILES_ROOT/Brewfile\""
+  fi
 }
 
 # --- Oh-My-Zsh ---------------------------------------------
