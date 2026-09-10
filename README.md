@@ -80,11 +80,13 @@ loads them on demand when a request matches the skill's description.
 | Skill                        | Triggers on                                          |
 |------------------------------|------------------------------------------------------|
 | `design-code-change`         | Choosing between implementation approaches           |
+| `design-data-schema`         | Designing schemas, indexes, and migrations           |
 | `instrument-code-change`     | Adding logging, metrics, traces, or error reporting  |
 | `write-code-comments`        | Writing or trimming comments and docstrings          |
 | `write-github-issue`         | Writing, drafting, or filing a GitHub issue          |
 | `write-pull-request`         | Writing a PR title, description, or opening a PR     |
 | `write-react-component-docs` | Documenting React components, props, and hooks       |
+| `write-technical-report`     | Writing a design proposal, analysis, or findings     |
 
 ### 1up MCP Server
 
