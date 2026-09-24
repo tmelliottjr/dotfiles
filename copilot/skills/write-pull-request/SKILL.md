@@ -55,6 +55,11 @@ pull requests. Never grow the description to compensate for a large diff.
 
 ## Voice
 
+- **Write what a person would say.** The body fails the same way titles do, in a
+  literary register that is accurate and unspoken. Do not narrate one
+  hypothetical instance ("a board's no value bucket"), do not chain possessives,
+  and do not pick a verb for flavour where a plain one exists. Every rule under
+  "Write the title a person would say" applies to body prose too.
 - **One idea per sentence.** Short sentences, plain words. Say "use", not
   "utilize". Cut adverbs ending in -ly.
 - **No metaphor, imagery, or rhetorical build.** Write "the arrow keys now reach
@@ -123,16 +128,60 @@ in a list.
   - Good: `Fix token refresh race on concurrent requests`
   - Good: `Remove the unused legacy billing webhook`
   - Avoid: `JIRA-1234`, `Fix bug`, `Updates`, `WIP`, `Address feedback`
-- **The repository's convention wins over every default above**, including
-  imperative mood. Check `CONTRIBUTING.md` and the repo's recent *merged PR
-  titles* first. Fall back to commit subjects only when the repo documents that
-  PR titles become or must match commit subjects.
+- **The repository's convention wins over the defaults in this section**,
+  including imperative mood. Check `CONTRIBUTING.md` and the repo's recent
+  *merged PR titles* first. Fall back to commit subjects only when the repo
+  documents that PR titles become or must match commit subjects.
 - If the repo uses Conventional Commits (a `commitlint` config, a PR title lint
   workflow, or documented policy), use its prefix:
   `fix(auth): reject expired refresh tokens`.
 - Under squash merging the PR title may become the squash commit subject,
   depending on repository settings and edits made at merge time. Where that
   applies, treat the title with the same care as a commit message.
+
+### Write the title a person would say
+
+The common failure is not a vague title. It is a title in a literary register:
+grammatical, accurate, and nothing anyone would ever say out loud. It reads like
+a sentence lifted from a design document.
+
+> ❌ Name a board's no value bucket after its axis field
+>
+> ✅ Use field names in no value bucket
+
+> ❌ Draw a select option's color on its board column heading
+>
+> ✅ Use option color in board column headings
+
+Four rules catch nearly all of it:
+
+1. **Name the change, not one instance of it.** `a board's`, `a select option's`,
+   and `its axis field` narrate one hypothetical example. Drop the singular
+   framing and name the thing in general terms, plural where that reads
+   naturally: `field names`, `board column headings`. Keep `the` only when it
+   points at one specific real thing, as in `Remove the unused legacy billing
+   webhook`.
+2. **One possessive at most.** No `'s` chains and no `its`. Two links of
+   possession means the title is describing a data relationship, which belongs
+   in the body if it belongs anywhere.
+3. **Use the verb a release note would use.** `add`, `remove`, `fix`, `use`,
+   `show`, `hide`, `support`, `move`, `rename`, `allow`, `prevent`, `keep`. Not
+   a verb picked for flavour where a plain one exists: `draw`, `name`, `teach`,
+   `refuse`, `honor`, `surface`, `carry`, `reach`, `enumerate`, `compose`,
+   `bound`.
+4. **Say what is different, not how it is wired.** `Name X after Y` states the
+   rule the code now follows. `Use field names in X` states what a person sees.
+   A title ending in `after its X`, `per Y`, `on its Z`, or `for each W` is the
+   usual tell: cut the clause and check whether the title still says enough. It
+   normally says more.
+
+**The read-aloud test.** Say the title to a teammate as "I ___". "I named the
+board's no value bucket after its axis field" is not something anyone says. "I
+made the no value bucket use the field name" is. Rewrite until the title matches
+the second one.
+
+This is about register, not length. All four bad titles above are specific,
+correctly scoped, and under 72 characters.
 
 ## Body
 
@@ -238,6 +287,12 @@ The same content, over budget and in budget. The pattern to learn is that the
 right version keeps every fact a reviewer acts on and drops the argument around
 it.
 
+**Title**
+
+> ❌ Refuse a board drag the caller declines
+
+> ✅ Let callers cancel a board drag
+
 **Opening**
 
 > ❌ Fifth open layer of the shared board packages. The roving focus framework
@@ -326,6 +381,7 @@ it.
    - Delete every sentence that does not change what the reviewer does.
    - Delete every sentence that describes the process rather than the code.
    - Collapse each remaining paragraph over 2 sentences.
+   - Read the title out loud as "I ___". Rewrite it if nobody would say it.
    - Count the words. Over 200, cut again rather than rationalizing.
 7. **Show the draft to the user.**
 8. **Filing.** An explicit request to open, create, or file the PR is approval to
@@ -378,6 +434,12 @@ stacked PRs rather than writing a longer description to compensate.
 ## Before you finish (checklist)
 
 - [ ] Title is specific, under 72 characters, and has no trailing period.
+- [ ] Title passes the read-aloud test: it is a sentence a teammate would say,
+      not one lifted from a design document.
+- [ ] Title names the change rather than one instance of it, carries one
+      possessive at most, and uses a verb a release note would use.
+- [ ] Title says what is different, not the rule the code now follows. No
+      trailing "after its X", "per Y", or "on its Z".
 - [ ] Title matches the repository's own PR title convention.
 - [ ] The repository's PR template was used, and each of its questions answered
       in 2 sentences or 3 bullets at most.

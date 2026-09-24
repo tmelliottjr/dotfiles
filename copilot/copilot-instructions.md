@@ -177,12 +177,15 @@ the design has to be; that is the next section.
 ## Git and pull requests
 
 - Prefix branches with `tmelliottjr/` followed by a kebab-case verb-noun name, such as
-  `tmelliottjr/fix-token-refresh`.
+  `tmelliottjr/fix-token-refresh`. Use the plain words of the pull request title:
+  `tmelliottjr/use-field-names-in-no-value-bucket`, never
+  `tmelliottjr/name-a-boards-no-value-bucket-after-its-axis-field`.
 - Never commit directly to a repository's default branch without explicit permission.
 - Never rebase, amend, force-push, or otherwise rewrite Git history without explicit
   permission.
 - Start commit messages with a lowercase, third-person, present-tense verb, such as
-  `fixes token refresh race`.
+  `fixes token refresh race`. The register rules in "Pull request titles and
+  descriptions" apply here too.
 - Commit in logical steps rather than one large commit.
 - Do not open a pull request unless I ask. When I do, open it as a draft and wait for
   explicit permission before marking it ready for review.
@@ -192,10 +195,17 @@ the design has to be; that is the next section.
 - Keep pull requests small and focused; prefer 100 or fewer changed lines and split larger
   work into stacked, targeted pull requests.
 
-## Pull request descriptions
+## Pull request titles and descriptions
 
 - Be direct and concise. A pull request is not storytelling time. State what
   changed and why, then stop.
+- Write the title as a sentence a teammate would say out loud, not one lifted from
+  a design document. Name the change rather than one instance of it, keep to one
+  possessive at most, and use the verb a release note would use. "Use field names
+  in no value bucket", never "Name a board's no value bucket after its axis field".
+- Titles say what is different, not the rule the code now follows. A trailing
+  "after its X", "per Y", or "on its Z" means the mechanism leaked into the title;
+  cut the clause. The same register rules apply to body prose.
 - Keep body prose under 200 words. No paragraph over two sentences, no bullet over
   one sentence, no list over five bullets. If it will not fit, split the pull
   request instead of growing the description.
