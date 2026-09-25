@@ -19,7 +19,7 @@ required local exception, or a public contract. Remove narration, process
 history, and anything already visible in the code.
 
 Comments, test names, and symbol names all read like speech, not like a design
-document. See [Write it the way you would say it](#write-it-the-way-you-would-say-it).
+document. See [Voice and register](#voice-and-register).
 
 This is the failure to prevent, nine lines on a one-line constant:
 
@@ -198,11 +198,11 @@ break on the first reorder. Name the symbol.
 >
 > ✅ `// Only grouped mode has swimlanes.`
 
-## Write it the way you would say it
+## Voice and register
 
-The common failure is not a vague comment or a sloppy name. It is a literary
-register: grammatical, accurate, and nothing anyone would say out loud. It reads
-like a sentence lifted from a design document.
+The common failure is a literary register: grammatical, accurate, and nothing
+anyone would say out loud, copied from the voice of a design document. A vague
+comment is easier to spot and is not the problem this section solves.
 
 **A comment.**
 
@@ -236,7 +236,7 @@ Four rules catch nearly all of it:
    access and the parent's hidden state` is a data relationship, not a sentence.
    Name the symbols instead: `readable_by?` and `hide_from_user?`.
 3. **Use the plain verb.** `reads`, `writes`, `returns`, `calls`, `skips`,
-   `fails`, `requires`, `runs`, `loads`, `checks`. Not a verb picked for flavour
+   `fails`, `requires`, `runs`, `loads`, `checks`. Not a verb picked for flavor
    where a plain one exists: `draw`, `carry`, `reach`, `surface`, `honor`,
    `teach`, `compose`, `enumerate`, `bound`, `spell`.
 4. **Say what happens, not the machinery behind it.** `is left out of the items
@@ -252,11 +252,28 @@ not loaded" is. Rewrite until it matches the second one.
 This is about register, not length. Every bad example above is accurate,
 correctly scoped, and within the budget.
 
-## Voice
+**Identifiers take the words, not the sentence.** A symbol, test double, table,
+column, branch, metric, span, or attribute name uses the plain words these four
+rules produce and stops there. Its shape comes from the repository's convention
+first, then from the standard the name belongs to. Never reword a name that a
+standard, a framework, or a tool fixes.
+
+These four rules, the read-aloud test, and the bans under "Voice in a comment"
+are the same ones `write-pull-request`, `write-github-issue`,
+`write-technical-report`, and `write-react-component-docs` apply. They hold for
+every kind of writing.
+
+## Voice in a comment
 
 - **Write what a person would say.** Say it to a teammate before you commit it.
-  Every rule under "Write it the way you would say it" applies to comments, test
-  names, fixture names, and symbol names alike.
+  Every rule under "Voice and register" applies to comments, test names,
+  fixture names, and symbol names alike.
+- **American English.** Write `color`, `behavior`, `canceled`, `flavor`,
+  `analyze`, `organize`, `license`, `defense`, `catalog`, `gray`, never the
+  British spelling. Three things keep their own spelling: an existing identifier,
+  API name, string literal, or quoted text, copied exactly as it is; a new name
+  joining a family the repository already spells the British way; and anything a
+  standard, schema, or protocol fixes. Prose is American English everywhere.
 - Use present tense. Indicative is the default; imperative or `must` is allowed
   for a required action, an ordering constraint, or a removal trigger. Do not
   describe how the code "was changed to", "has been made", or "will eventually"
@@ -275,7 +292,7 @@ correctly scoped, and within the budget.
   When you change code, check the comments around it, not only the ones you
   edited, and update or delete any your change made inaccurate.
 - **Tests.** Prefer test names, fixture names, and assertions. Name them under
-  "Write it the way you would say it": what happens, not the machinery behind it.
+  "Voice and register": what happens, not the machinery behind it.
   Comment only hidden harness behavior, non-obvious setup ordering, or an
   external issue or specification that will not fit the test name. Never explain
   what a fixture visibly does.
@@ -305,7 +322,7 @@ contract. The implementation delete checks and the length budget do not apply.
   contract information. Document what the parameter constrains, or omit the tag.
 - Skip short private helpers with self-describing names.
 - Multiple sentences and paragraphs are allowed where the contract needs them.
-  The Voice rules and patterns 2 and 4 through 10 still apply. Document
+  The "Voice in a comment" rules and patterns 2 and 4 through 10 still apply. Document
   caller-visible behavior even when the implementation is obvious.
 
 > ❌
@@ -399,6 +416,10 @@ reason the first is enforceable, so it stays.
 
 ## Before you finish (checklist)
 
+- [ ] American English in all prose. Spelling is preserved only in a quoted
+      identifier, API name, string literal, or quoted text, in a new name joining a
+      family the repository already spells the British way, and where a standard,
+      schema, or protocol fixes it.
 - [ ] Every explanatory comment's purpose is on the one-purpose list; required
       notices, directives, and tracked `TODO:` comments are exempt.
 - [ ] No comment carries a fact serving a different purpose.
@@ -408,7 +429,7 @@ reason the first is enforceable, so it stays.
 - [ ] Every comment, test name, and symbol name passes the read-aloud test: a
       sentence a teammate would say, not one lifted from a design document.
 - [ ] Nothing narrates one hypothetical instance, chains possessives, or picks a
-      verb for flavour where a plain one exists.
+      verb for flavor where a plain one exists.
 - [ ] Every name says what happens, not the machinery behind it.
 - [ ] No comment restates the name, the signature, the language, or nearby code.
 - [ ] No counterfactual unless it makes an allowlisted purpose actionable and

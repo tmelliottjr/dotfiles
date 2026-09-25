@@ -26,6 +26,50 @@ if they had intentions, and paragraphs of conversation wrapped around a small
 amount of information. The same rules that keep this out of a pull request
 description, an issue, and a code comment apply here.
 
+## Voice and register
+
+Write it the way you would say it. The common failure is a literary register that
+is grammatical, accurate, and nothing anyone would say out loud, copied from the
+voice of a design document.
+
+Four rules catch nearly all of it:
+
+1. **Name the thing, not one instance of it.** "A board's no value bucket" and "a
+   parent conditional access refuses" narrate one hypothetical example. Name it in
+   general terms, plural where that reads naturally: "empty buckets", "refused
+   parents". Keep "the" only when it points at one specific real thing.
+2. **One possessive at most.** No `'s` chains and no "its". Two links of possession
+   describe a data relationship, not a sentence. Name the symbols instead.
+3. **Use the plain verb.** `add`, `remove`, `fix`, `use`, `show`, `hide`, `read`,
+   `write`, `return`, `call`, `skip`, `fail`, `load`, `check`. Not a verb picked for
+   flavor where a plain one exists: `draw`, `carry`, `reach`, `surface`, `honor`,
+   `teach`, `compose`, `enumerate`, `bound`, `spell`.
+4. **Say what happens, not the machinery behind it.** A trailing clause that
+   re-derives the mechanism is the tell: "after its X", "per Y", "on its Z", "is
+   left out of the items the page builds". Cut it and check whether the line still
+   says enough. It normally says more.
+
+**The read-aloud test.** Say a comment, a title, a description, or a report sentence
+to a teammate at your desk. Say a pull request title as "I ___", a commit message as
+"this commit ___", and a test name after "this checks that". Rewrite anything nobody
+would say. This is about register, not length; a line can be accurate, specific, and
+within budget and still fail.
+
+**Identifiers take the words, not the sentence.** A symbol, table, column, branch,
+metric, span, or attribute name uses the plain words the four rules produce and stops
+there. Its shape comes from the repository's convention first, then from the standard
+the name belongs to. Never reword a name that a standard, a framework, or a tool
+fixes.
+
+**American English.** Write `color`, `behavior`, `canceled`, `flavor`, `analyze`,
+`organize`, `license`, `defense`, `catalog`, `gray`, never the British spelling. Three
+things keep their own spelling: an existing identifier, API name, string literal, or
+quoted text, copied exactly as it is; a new name joining a family the repository
+already spells the British way; and anything a standard, schema, or protocol fixes.
+Prose is American English everywhere.
+
+These rules hold for every kind of writing.
+
 ## Style rules (always apply)
 
 - **Lead with the conclusion.** The recommendation, the answer, or the finding
@@ -237,6 +281,14 @@ sequence of edits, and do not list the tools used.
 
 ## Before you finish (checklist)
 
+- [ ] Everything written passes the read-aloud test: a sentence a teammate would
+      say, not one lifted from a design document. Nothing narrates one
+      hypothetical instance, chains possessives, picks a verb for flavor where a
+      plain one exists, or re-derives the mechanism in a trailing clause.
+- [ ] American English in all prose. Spelling is preserved only in a quoted
+      identifier, API name, string literal, or quoted text, in a new name joining a
+      family the repository already spells the British way, and where a standard,
+      schema, or protocol fixes it.
 - [ ] The conclusion is in the first two sentences.
 - [ ] No changelog of the work: no attempts, no reconsiderations, no tools used,
       no files read.

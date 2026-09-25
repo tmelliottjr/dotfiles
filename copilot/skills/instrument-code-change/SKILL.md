@@ -35,6 +35,32 @@ The rule is not "add telemetry". It is: name the operational question, add the
 smallest signal that answers it, and state the decision when the answer is that
 nothing is needed.
 
+## Voice and register
+
+Metric names, span names, log messages, and attribute keys read like speech
+rather than a design document, after the repository's own naming convention.
+
+- Name the thing, not one instance of it, and keep to one possessive at most.
+- Use the plain verb, not one picked for flavor where a plain one exists.
+- Say what happens, not the machinery behind it. Cut a trailing clause that
+  re-derives the mechanism.
+- No personification, judgment adverbs, rhetorical construction, conversational
+  filler, or em dashes.
+- American English: `color`, `behavior`, `canceled`, `analyze`, `license`, `defense`,
+  never the British spelling. Three things keep their own spelling: an existing
+  identifier, API name, string literal, or quoted text, copied exactly as it is; a new
+  name joining a family the repository already spells the British way; and anything a
+  standard, schema, or protocol fixes. Prose is American English everywhere.
+
+**The read-aloud test.** Say a comment, a title, a description, or a report sentence to
+a teammate at your desk. Rewrite anything nobody would say.
+
+**Identifiers take the words, not the sentence.** A symbol, table, column, branch,
+metric, span, or attribute name uses the plain words these rules produce and stops
+there. Its shape comes from the repository's convention first, then from the standard
+the name belongs to. Never reword a name that a standard, a framework, or a tool
+fixes.
+
 ## Read the repository first
 
 Every default in this document loses to what the repository already does.
@@ -74,7 +100,7 @@ through them in this order:
 Inbound requests and RPCs. Outbound HTTP and RPC calls. Database and cache
 access. Queue publish and consume. Scheduled and background jobs. Anything
 crossing a process, network, or thread edge. State transitions with business
-meaning: order shipped, subscription cancelled, tenant provisioned.
+meaning: order shipped, subscription canceled, tenant provisioned.
 
 ### Pick one new signal, not one of each
 
@@ -828,6 +854,14 @@ because telemetry could not tell you, that gap is a finding worth reporting.
 
 ## Before you finish (checklist)
 
+- [ ] Everything written passes the read-aloud test: a sentence a teammate would
+      say, not one lifted from a design document. Nothing narrates one
+      hypothetical instance, chains possessives, picks a verb for flavor where a
+      plain one exists, or re-derives the mechanism in a trailing clause.
+- [ ] American English in all prose. Spelling is preserved only in a quoted
+      identifier, API name, string literal, or quoted text, in a new name joining a
+      family the repository already spells the British way, and where a standard,
+      schema, or protocol fixes it.
 - [ ] Every boundary the change touches was considered, and the ones needing no
       signal are stated as decisions in the report rather than left unmentioned.
 - [ ] Each new signal answers a named operational question that existing

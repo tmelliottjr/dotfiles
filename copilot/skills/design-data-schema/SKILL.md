@@ -28,6 +28,32 @@ failure is a migration that is correct in a console and locks a table in product
 This skill covers the storage decision. `design-code-change` holds the ranking that
 decides between options, and `write-technical-report` holds how the proposal reads.
 
+## Voice and register
+
+Table, column, index, and constraint names read like speech rather than a
+design document, and so does the prose around them.
+
+- Name the thing, not one instance of it, and keep to one possessive at most.
+- Use the plain verb, not one picked for flavor where a plain one exists.
+- Say what happens, not the machinery behind it. Cut a trailing clause that
+  re-derives the mechanism.
+- No personification, judgment adverbs, rhetorical construction, conversational
+  filler, or em dashes.
+- American English: `color`, `behavior`, `canceled`, `analyze`, `license`, `defense`,
+  never the British spelling. Three things keep their own spelling: an existing
+  identifier, API name, string literal, or quoted text, copied exactly as it is; a new
+  name joining a family the repository already spells the British way; and anything a
+  standard, schema, or protocol fixes. Prose is American English everywhere.
+
+**The read-aloud test.** Say a comment, a title, a description, or a report sentence to
+a teammate at your desk. Rewrite anything nobody would say.
+
+**Identifiers take the words, not the sentence.** A symbol, table, column, branch,
+metric, span, or attribute name uses the plain words these rules produce and stops
+there. Its shape comes from the repository's convention first, then from the standard
+the name belongs to. Never reword a name that a standard, a framework, or a tool
+fixes.
+
 ## Start from the access patterns
 
 Write the access patterns before writing a single `CREATE TABLE`. A table designed
@@ -279,6 +305,14 @@ Do not ask what reading the repository or the linked schema would answer.
 
 ## Before you finish (checklist)
 
+- [ ] Everything written passes the read-aloud test: a sentence a teammate would
+      say, not one lifted from a design document. Nothing narrates one
+      hypothetical instance, chains possessives, picks a verb for flavor where a
+      plain one exists, or re-derives the mechanism in a trailing clause.
+- [ ] American English in all prose. Spelling is preserved only in a quoted
+      identifier, API name, string literal, or quoted text, in a new name joining a
+      family the repository already spells the British way, and where a standard,
+      schema, or protocol fixes it.
 - [ ] The access patterns are written down, with filters, sorts, volumes, and frequency.
 - [ ] Every access pattern maps to an index, or to a stated and accepted full scan.
 - [ ] Composite index column order is equality, then sort, then range, and no index

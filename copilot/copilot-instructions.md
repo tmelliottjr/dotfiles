@@ -94,19 +94,82 @@ the design has to be; that is the next section.
 - For design work, reviews, and any decision with more than one credible option, use the
   `design-code-change` skill.
 
+## Voice and register
+
+This section is the single source for how everything I write sounds. It covers code
+comments, API documentation, symbol and test names, commit messages, branch names, pull
+request titles and descriptions, issues, technical reports, telemetry and metric names,
+and the report at the end of every task. The sections below add rules for their own
+context; none of them restates or overrides this one.
+
+Write it the way you would say it. The common failure is a literary register that is
+grammatical, accurate, and nothing anyone would say out loud, copied from the voice of a
+design document.
+
+Four rules catch nearly all of it:
+
+1. **Name the thing, not one instance of it.** "A board's no value bucket" and "a parent
+   conditional access refuses" narrate one hypothetical example. Name it in general terms,
+   plural where that reads naturally: "empty buckets", "refused parents". Keep "the" only
+   when it points at one specific real thing.
+2. **One possessive at most.** No `'s` chains and no "its". Two links of possession
+   describe a data relationship, not a sentence. Name the symbols instead.
+3. **Use the plain verb.** `add`, `remove`, `fix`, `use`, `show`, `hide`, `read`, `write`,
+   `return`, `call`, `skip`, `fail`, `load`, `check`, `move`, `rename`. Not a verb picked
+   for flavor where a plain one exists: `draw`, `carry`, `reach`, `surface`, `honor`,
+   `teach`, `compose`, `enumerate`, `bound`, `spell`.
+4. **Say what happens, not the machinery behind it.** A trailing clause that re-derives
+   the mechanism is the tell: "after its X", "per Y", "on its Z", "is left out of the
+   items the page builds". Cut it and check whether the line still says enough. It
+   normally says more.
+
+**The read-aloud test.** Say a comment, a title, a description, or a report sentence to a
+teammate at your desk. Say a pull request title as "I ___", a commit message as "this
+commit ___", and a test name after "this checks that". Rewrite anything nobody would say.
+This is about register, not length; a line can be accurate, specific, and within budget
+and still fail.
+
+**Identifiers take the words, not the sentence.** A symbol, table, column, branch,
+metric, span, or attribute name uses the plain words the four rules produce and stops
+there. Its shape comes from the repository's convention first, then from the standard the
+name belongs to, such as OpenTelemetry attribute keys, Prometheus metric names, or Rails
+table names. Never reword a name that a standard, a framework, or a tool fixes.
+
+These apply to all of it:
+
+- **American English.** Write `color`, `behavior`, `canceled`, `flavor`, `analyze`,
+  `organize`, `license`, `defense`, `catalog`, `gray`, never the British spelling. Three
+  things keep their own spelling: an existing identifier, API name, string literal, or
+  quoted text, copied exactly as it is; a new name joining a family the repository
+  already spells the British way, such as a method on a `ColourScheme` class; and
+  anything a standard, schema, or protocol fixes. Prose is American English everywhere.
+- **No personification.** Code, tables, services, queues, and components do not know,
+  want, care, decide, refuse, or feel anything. Verbs of behavior are fine: a parser
+  rejects input, a query returns rows.
+- **No judgment adverbs and no self-congratulation.** Drop "deliberately", "on purpose",
+  "carefully", "properly", "simply", "obviously", "clearly", "elegant", "clean",
+  "robust". Describe the property instead.
+- **No rhetorical construction.** No "not X, but Y", no "which is all it takes", no
+  repeated parallel clauses, no closing line built to land. State it flat.
+- **No metaphor, imagery, or sensory framing.** Conventional technical verbs are fine
+  where they name an established code relationship directly.
+- **No conversational filler.** No openers, transitions, or sign-offs.
+- **No em dashes.** Use commas, parentheses, or separate sentences.
+- **Present tense, active voice, describing what is there now.** Not "was changed to",
+  "has been made", or "will eventually".
+- **Say it once.** No "in other words", "put differently", "essentially". A sentence that
+  needs restating was wrong the first time.
+- **One idea per sentence.** Short sentences, plain words. Say "use", not "utilize".
+
 ## Naming and code comments
+
+These add to "Voice and register" above, which governs how every comment, name, and test
+name sounds.
 
 - Prefer clear naming and structure. Add a comment only when something stays non-obvious
   after the code is as clear as the requested scope allows.
-- Write names and comments the way you would say them out loud. The failure is not
-  vagueness; it is a literary register that is grammatical, accurate, and unspoken, lifted
-  from a design document. Name the thing rather than one hypothetical instance of it, keep
-  to one possessive at most, and use the plain verb where one exists.
-- Say what happens, not the machinery behind it. A comment or name that re-derives the
-  mechanism is the tell: cut that clause and check whether it still says enough. It
-  normally says more.
-- Test names follow the same rules: `refused parents are not loaded`, never `a parent
-  conditional access refuses is left out of the items the page builds`.
+- Test names get the same treatment as comments: `refused parents are not loaded`, never
+  `a parent conditional access refuses is left out of the items the page builds`.
 - Every explanatory comment needs a purpose from this list, or it gets deleted: an external
   constraint the reader cannot see from here, an invariant or ordering the types cannot
   express, a non-local hazard, a magic value with an external source, what a dense encoding
@@ -131,15 +194,12 @@ the design has to be; that is the next section.
 - No process defense: not why a file was chosen, what a reviewer questioned, or how the
   implementation was reached. A durable local constraint is different and belongs beside the
   code, including the reason for any lint suppression or untyped boundary.
-- No ornamental construction: no "not X, but Y", no "which is all it takes", no repeated
-  parallel clauses, no closing aphorism. Colons and negation are fine when they are the
-  shortest clear way to state the reason. No decorative metaphor, though conventional
-  technical verbs are fine. No personification; code does not know, want, care, or refuse.
-  No judgment adverbs, and never "deliberately" or "on purpose". Where a reader might
-  mistake the code for a bug, say what breaks if they "fix" it.
+- No ornamental construction. Colons and negation are fine when they are the shortest clear
+  way to state the reason. Where a reader might mistake the code for a bug, say what breaks
+  if they "fix" it.
 - Name symbols rather than positions. No "below", "above", or "the block that follows".
 - Nothing that only makes sense to someone who watched the work happen.
-- Use clear, concise, simple language, with no "I" or "we".
+- No "I" or "we". No emoji.
 - API documentation has the fixed purpose of recording the caller-visible contract. It is
   exempt from the delete checks and the length budget, but the voice rules and the bans on
   restating the code and on process defense still apply. Document behavior, constraints,
@@ -160,6 +220,9 @@ the design has to be; that is the next section.
 
 ## React component documentation
 
+These add to "Voice and register" above, which governs how every prop, hook, and
+component doc sounds.
+
 - Document props on the props type, one `/**` block immediately above each prop. A
   prop typed inline in the component signature gets no generated docs, and an
   undocumented `children` is dropped from the prop table entirely.
@@ -173,10 +236,10 @@ the design has to be; that is the next section.
 - Put every default in the tag the repository's docgen reads (`@default` for
   Storybook and react-docgen-typescript, `@defaultValue` for API Extractor, TypeDoc,
   and Radix), never in prose, and delete the prose sentence when moving it.
-- No storytelling. No scenario narration, no personification, no "you", no sensory
-  framing, no ornamental contrast, no preamble or hedging. Do not restate the prop
-  name, the type, or the component description, and keep implementation detail
-  (internal state, refs, memoization, render behavior) out of the contract.
+- No storytelling. No scenario narration, no "you", no preamble or hedging. Do not
+  restate the prop name, the type, or the component description, and keep
+  implementation detail (internal state, refs, memoization, render behavior) out of
+  the contract.
 - Every deprecation uses `@deprecated` and names the replacement.
 - This tightens the general API documentation budget in the Naming and code comments
   section above, which exempts API docs from a length limit.
@@ -193,8 +256,8 @@ the design has to be; that is the next section.
 - Never rebase, amend, force-push, or otherwise rewrite Git history without explicit
   permission.
 - Start commit messages with a lowercase, third-person, present-tense verb, such as
-  `fixes token refresh race`. The register rules in "Pull request titles and
-  descriptions" apply here too.
+  `fixes token refresh race`. "Voice and register" above applies, including the
+  read-aloud test.
 - Commit in logical steps rather than one large commit.
 - Do not open a pull request unless I ask. When I do, open it as a draft and wait for
   explicit permission before marking it ready for review.
@@ -206,15 +269,16 @@ the design has to be; that is the next section.
 
 ## Pull request titles and descriptions
 
+These add to "Voice and register" above, which governs how the title and the body sound.
+
 - Be direct and concise. A pull request is not storytelling time. State what
   changed and why, then stop.
-- Write the title as a sentence a teammate would say out loud, not one lifted from
-  a design document. Name the change rather than one instance of it, keep to one
-  possessive at most, and use the verb a release note would use. "Use field names
-  in no value bucket", never "Name a board's no value bucket after its axis field".
+- Write the title as a sentence a teammate would say out loud, using the verb a
+  release note would use. "Use field names in no value bucket", never "Name a
+  board's no value bucket after its axis field".
 - Titles say what is different, not the rule the code now follows. A trailing
   "after its X", "per Y", or "on its Z" means the mechanism leaked into the title;
-  cut the clause. The same register rules apply to body prose.
+  cut the clause.
 - Keep body prose under 200 words. No paragraph over two sentences, no bullet over
   one sentence, no list over five bullets. If it will not fit, split the pull
   request instead of growing the description.
@@ -235,9 +299,8 @@ the design has to be; that is the next section.
   on, the previous layer in a stack, or an existing implementation this mirrors.
   One line each, with a full link and a few words on why it is relevant.
 - Use plain language. Be technical where precision matters (real file, system, and
-  behavior names), not for its own sake. No metaphor, no bolded thesis paragraphs.
-- No conversational style, no jargon, no em dashes, no filler such as "as
-  discussed".
+  behavior names), not for its own sake. No bolded thesis paragraphs.
+- No jargon and no filler such as "as discussed".
 - Link the related issue and summarize it. Never link alone.
 - Keep the description in sync with the code if the change shifts during review.
 - For title rules, default structure, brevity budgets, and the filing workflow,
@@ -245,11 +308,13 @@ the design has to be; that is the next section.
 
 ## GitHub issues
 
+These add to "Voice and register" above, which governs how the title and the body sound.
+
 - Write issues that are concise and to the point. State the problem or goal and the
   desired outcome, then stop.
 - Describe what and why, not how. Do not prescribe specific implementation details;
   leave the approach to whoever picks up the issue.
-- No conversational phrases, jargon, em dashes, or lengthy elaboration.
+- No jargon and no lengthy elaboration.
 - Prefer tight bullets over paragraphs. Break every enumeration of two or more
   symptoms, conditions, or outcomes into a bulleted list under a one-line lead-in
   rather than running it inline.
@@ -263,14 +328,13 @@ the design has to be; that is the next section.
 These apply to every written technical deliverable that is not code, a pull request, an
 issue, or a comment: design and schema proposals, architecture writeups, options
 comparisons, investigations, findings summaries, and the report at the end of every task.
+They add to "Voice and register" above, which governs how all of it sounds.
 
 - Lead with the conclusion. The recommendation or finding goes in the first two
   sentences. Background, alternatives, and supporting detail come after.
 - No changelog of the work. Describe the design as it stands, with no attempts, no
   reconsiderations, no files read, and no tools used. A rejected option is stated as a
   rejected option with its reason, never as a step in a story.
-- No personification, judgment adverbs, self-congratulation, rhetorical construction,
-  conversational openers or sign-offs, or em dashes.
 - No hedging. State the claim, or move it to a numbered open question with the default
   you will take if I do not answer.
 - Break every enumeration of two or more items into bullets or a table. No paragraph over
@@ -317,19 +381,21 @@ comparisons, investigations, findings summaries, and the report at the end of ev
   testing or linting tool.
 - Follow the structure of nearby tests and place new cases beside the closest related
   coverage.
-- Name a test as a sentence a person would say. The register rules in "Naming and code
-  comments" apply here too.
+- Name a test as a sentence a person would say. "Voice and register" above applies,
+  including the read-aloud test.
 - Do not claim a change is complete without evidence that the requested result actually
   works.
 
 ## Observability
 
-- Instrument the code you change. Decide deliberately what needs a log, a metric, or a
-  span, and say so in your report when you decide it needs none.
+- Instrument the code you change. Decide what needs a log, a metric, or a span, and say
+  so in your report when you decide it needs none.
 - Follow the repository's existing logger, telemetry SDK, and error reporter over any
   better default. A new telemetry dependency needs my approval.
 - Never put secrets, tokens, credentials, full request bodies, or PII in a log field, span
   attribute, metric label, or error report.
+- "Voice and register" above applies to metric names, span names, and log messages, after
+  the repository's existing telemetry naming convention.
 - For levels, cardinality, naming, propagation, and alerting, use the
   `instrument-code-change` skill.
 
@@ -343,8 +409,7 @@ comparisons, investigations, findings summaries, and the report at the end of ev
 
 ## Writing and references
 
-- Use simple, clear, friendly language.
-- Never use em dashes. Use commas, parentheses, or separate sentences instead.
+- Use simple, clear, friendly language. "Voice and register" above governs the rest.
 - Prefer GitHub-flavored Markdown.
 - Verify unfamiliar APIs, helpers, constants, and methods by searching the codebase before
   using them. Ask only if the answer stays unclear.

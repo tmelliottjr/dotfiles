@@ -53,13 +53,19 @@ pull requests. Never grow the description to compensate for a large diff.
   stays as written.
 - **Anything already stated in another section.**
 
-## Voice
+## Voice and register
 
 - **Write what a person would say.** The body fails the same way titles do, in a
   literary register that is accurate and unspoken. Do not narrate one
   hypothetical instance ("a board's no value bucket"), do not chain possessives,
-  and do not pick a verb for flavour where a plain one exists. Every rule under
+  and do not pick a verb for flavor where a plain one exists. Every rule under
   "Write the title a person would say" applies to body prose too.
+- **American English.** Write `color`, `behavior`, `canceled`, `flavor`,
+  `analyze`, `organize`, `license`, `defense`, `catalog`, `gray`, never the
+  British spelling. Three things keep their own spelling: an existing identifier,
+  API name, string literal, or quoted text, copied exactly as it is; a new name
+  joining a family the repository already spells the British way; and anything a
+  standard, schema, or protocol fixes. Prose is American English everywhere.
 - **One idea per sentence.** Short sentences, plain words. Say "use", not
   "utilize". Cut adverbs ending in -ly.
 - **No metaphor, imagery, or rhetorical build.** Write "the arrow keys now reach
@@ -141,9 +147,10 @@ in a list.
 
 ### Write the title a person would say
 
-The common failure is not a vague title. It is a title in a literary register:
-grammatical, accurate, and nothing anyone would ever say out loud. It reads like
-a sentence lifted from a design document.
+The common failure is a title in a literary register: grammatical, accurate, and
+nothing anyone would ever say out loud, copied from the voice of a design
+document. A vague title is easier to spot and is not the problem this section
+solves.
 
 > ❌ Name a board's no value bucket after its axis field
 >
@@ -166,7 +173,7 @@ Four rules catch nearly all of it:
    in the body if it belongs anywhere.
 3. **Use the verb a release note would use.** `add`, `remove`, `fix`, `use`,
    `show`, `hide`, `support`, `move`, `rename`, `allow`, `prevent`, `keep`. Not
-   a verb picked for flavour where a plain one exists: `draw`, `name`, `teach`,
+   a verb picked for flavor where a plain one exists: `draw`, `name`, `teach`,
    `refuse`, `honor`, `surface`, `carry`, `reach`, `enumerate`, `compose`,
    `bound`.
 4. **Say what is different, not how it is wired.** `Name X after Y` states the
@@ -175,13 +182,24 @@ Four rules catch nearly all of it:
    usual tell: cut the clause and check whether the title still says enough. It
    normally says more.
 
-**The read-aloud test.** Say the title to a teammate as "I ___". "I named the
-board's no value bucket after its axis field" is not something anyone says. "I
-made the no value bucket use the field name" is. Rewrite until the title matches
-the second one.
+**The read-aloud test.** Say the title to a teammate as "I ___", and a commit
+message as "this commit ___". "I named the board's no value bucket after its axis
+field" is not something anyone says. "I made the no value bucket use the field
+name" is. Rewrite until the title matches the second one.
 
 This is about register, not length. All four bad titles above are specific,
 correctly scoped, and under 72 characters.
+
+**Identifiers take the words, not the sentence.** A symbol, test double, table,
+column, branch, metric, span, or attribute name uses the plain words these four
+rules produce and stops there. Its shape comes from the repository's convention
+first, then from the standard the name belongs to. Never reword a name that a
+standard, a framework, or a tool fixes.
+
+These four rules, the read-aloud test, and the bans under "Voice and register"
+are the same ones `write-code-comments`, `write-github-issue`,
+`write-technical-report`, and `write-react-component-docs` apply. They hold for
+every kind of writing, including commit messages and branch names.
 
 ## Body
 
@@ -433,6 +451,10 @@ stacked PRs rather than writing a longer description to compensate.
 
 ## Before you finish (checklist)
 
+- [ ] American English in all prose. Spelling is preserved only in a quoted
+      identifier, API name, string literal, or quoted text, in a new name joining a
+      family the repository already spells the British way, and where a standard,
+      schema, or protocol fixes it.
 - [ ] Title is specific, under 72 characters, and has no trailing period.
 - [ ] Title passes the read-aloud test: it is a sentence a teammate would say,
       not one lifted from a design document.
