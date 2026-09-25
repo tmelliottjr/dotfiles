@@ -406,6 +406,21 @@ They add to "Voice and register" above, which governs how all of it sounds.
 - Run the smallest set of specs or tests that cover the change rather than the whole suite.
 - Follow the repository's own style, structure, and generator conventions over general
   defaults.
+- Use hash value omission when the repository targets Ruby 3.1 or later, its
+  `.rubocop.yml` does not set `Style/HashSyntax` to `EnforcedShorthandSyntax: never`, and
+  the key and the value are spelled the same. Write `create_invite(user:, scope:)` and
+  `{ user:, scope: }`, not `create_invite(user: user, scope: scope)`.
+- Do not touch method definitions for this. `def create_invite(user:, scope:)` is required
+  keyword argument syntax and already correct; there is no longhand to shorten.
+- An omitted value resolves to a local variable or to a method on `self`, and raises
+  `NameError` when neither exists. Use it only when the name in scope is the value you
+  want, and never rename a local or add a reader to make the shorthand fit.
+- `EnforcedShorthandSyntax` defaults to `either`, which accepts both. `always` omits every
+  value that can be omitted, `never` writes every value out, `consistent` omits them only
+  when every value in that hash can be omitted, and `either_consistent` accepts both but
+  requires one style per hash.
+- Leave a mixed longhand and shorthand hash alone unless the change already touches it.
+  Reformatting hashes is not part of an unrelated fix.
 
 ## Writing and references
 
