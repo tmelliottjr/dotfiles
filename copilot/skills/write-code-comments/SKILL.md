@@ -5,10 +5,10 @@ description: >
   comments, docstrings, JSDoc, TSDoc, rustdoc, godoc, or any API documentation in
   code (for example "add a comment explaining this", "document this function",
   "write a docstring", "clean up these comments", "why is this commented"). It
-  also applies with no prompting during any code change, since every new comment
-  is written under these rules. It produces short comments that record what the
-  code cannot express, and keeps narration, process history, and self-defense out
-  of the source.
+  also applies with no prompting during any code change, since every new comment,
+  test name, and symbol name is written under these rules. It produces short
+  comments that record what the code cannot express, names that read like speech,
+  and keeps narration, process history, and self-defense out of the source.
 ---
 
 # Code Comment Writing
@@ -17,6 +17,9 @@ Write a comment only when it records something the code cannot express: an
 external constraint, a hidden invariant, a non-local hazard, a workaround, a
 required local exception, or a public contract. Remove narration, process
 history, and anything already visible in the code.
+
+Comments, test names, and symbol names all read like speech, not like a design
+document. See [Write it the way you would say it](#write-it-the-way-you-would-say-it).
 
 This is the failure to prevent, nine lines on a one-line constant:
 
@@ -195,8 +198,65 @@ break on the first reorder. Name the symbol.
 >
 > ✅ `// Only grouped mode has swimlanes.`
 
+## Write it the way you would say it
+
+The common failure is not a vague comment or a sloppy name. It is a literary
+register: grammatical, accurate, and nothing anyone would say out loud. It reads
+like a sentence lifted from a design document.
+
+**A comment.**
+
+> ❌ `# A parent outside the repository the search scoped is authorized the way
+> Issue#async_filtered_parent authorizes the one GraphQL serves: conditional
+> access first, then the viewer's read access and the parent's hidden state.`
+>
+> ✅ `# Parents can live outside the searched repository, so they get their own
+> check. Same order as Issue#async_filtered_parent.`
+
+**A test name.**
+
+> ❌ `test "a parent conditional access refuses is left out of the items the page builds"`
+>
+> ✅ `test "refused parents are not loaded"`
+
+**A symbol name.**
+
+> ❌ `def refuse_unauthorized_parents`
+>
+> ✅ `def filter_parents`
+
+Four rules catch nearly all of it:
+
+1. **Name the thing, not one instance of it.** `a parent conditional access
+   refuses`, `the one GraphQL serves`, and `a board's no value bucket` narrate
+   one hypothetical example. Name it in general terms, plural where that reads
+   naturally: `refused parents`, `empty buckets`. Keep `the` only when it points
+   at one specific real thing.
+2. **One possessive at most.** No `'s` chains and no `its`. `the viewer's read
+   access and the parent's hidden state` is a data relationship, not a sentence.
+   Name the symbols instead: `readable_by?` and `hide_from_user?`.
+3. **Use the plain verb.** `reads`, `writes`, `returns`, `calls`, `skips`,
+   `fails`, `requires`, `runs`, `loads`, `checks`. Not a verb picked for flavour
+   where a plain one exists: `draw`, `carry`, `reach`, `surface`, `honor`,
+   `teach`, `compose`, `enumerate`, `bound`, `spell`.
+4. **Say what happens, not the machinery behind it.** `is left out of the items
+   the page builds` describes the implementation; `are not loaded` describes the
+   result. A trailing clause that re-derives the mechanism is the usual tell: cut
+   it and check whether the name still says enough. It normally says more.
+
+**The read-aloud test.** Say a comment to a teammate at your desk. Say a test
+name after "this checks that". "A parent conditional access refuses is left out
+of the items the page builds" is not something anyone says. "Refused parents are
+not loaded" is. Rewrite until it matches the second one.
+
+This is about register, not length. Every bad example above is accurate,
+correctly scoped, and within the budget.
+
 ## Voice
 
+- **Write what a person would say.** Say it to a teammate before you commit it.
+  Every rule under "Write it the way you would say it" applies to comments, test
+  names, fixture names, and symbol names alike.
 - Use present tense. Indicative is the default; imperative or `must` is allowed
   for a required action, an ordering constraint, or a removal trigger. Do not
   describe how the code "was changed to", "has been made", or "will eventually"
@@ -214,10 +274,11 @@ break on the first reorder. Name the symbol.
   steps. Where the constraint is testable, add the test as well as the comment.
   When you change code, check the comments around it, not only the ones you
   edited, and update or delete any your change made inaccurate.
-- **Tests.** Prefer test names, fixture names, and assertions. Comment only
-  hidden harness behavior, non-obvious setup ordering, or an external issue or
-  specification that will not fit the test name. Never explain what a fixture
-  visibly does.
+- **Tests.** Prefer test names, fixture names, and assertions. Name them under
+  "Write it the way you would say it": what happens, not the machinery behind it.
+  Comment only hidden harness behavior, non-obvious setup ordering, or an
+  external issue or specification that will not fit the test name. Never explain
+  what a fixture visibly does.
 - **Generated files.** Do not add or edit comments in generated output. Change
   the generator, template, or schema. Preserve generated-file markers.
 - **Config and build files.** Comment a stanza-level constraint, unit, or
@@ -270,6 +331,14 @@ contract. The implementation delete checks and the length budget do not apply.
 
 Hard cases, over budget and in budget.
 
+**A comment in the wrong register.** Accurate, within budget, and unspoken.
+
+> ❌ `// Returns the records passed in rather than copies, so the associations the
+> page already loaded on them carry into Item.load.`
+>
+> ✅ `// Returns the same objects, not copies, so Item.load reuses their loaded
+> associations.`
+
 **A coupled invariant.** Two clauses, one purpose. The second clause is the
 reason the first is enforceable, so it stays.
 
@@ -320,9 +389,12 @@ reason the first is enforceable, so it stays.
    needs to be actionable.
 5. **Check the draft against the ten patterns** literally, then against the
    budget.
-6. **Sweep the change** for comments it made inaccurate, including ones you did
+6. **Read it back** as a sentence a teammate would say, and rewrite anything
+   nobody would. Apply the same test to every test name and symbol name the
+   change adds.
+7. **Sweep the change** for comments it made inaccurate, including ones you did
    not edit.
-7. **Report** every implementation comment over three lines, and the repository
+8. **Report** every implementation comment over three lines, and the repository
    requirement or mandated notice that required it.
 
 ## Before you finish (checklist)
@@ -333,6 +405,11 @@ reason the first is enforceable, so it stays.
 - [ ] No implementation comment exceeds three lines or has a second paragraph,
       unless repository-required syntax or a mandated notice requires it, and
       every exception is reported.
+- [ ] Every comment, test name, and symbol name passes the read-aloud test: a
+      sentence a teammate would say, not one lifted from a design document.
+- [ ] Nothing narrates one hypothetical instance, chains possessives, or picks a
+      verb for flavour where a plain one exists.
+- [ ] Every name says what happens, not the machinery behind it.
 - [ ] No comment restates the name, the signature, the language, or nearby code.
 - [ ] No counterfactual unless it makes an allowlisted purpose actionable and
       names the concrete failure and the affected symbol or data.

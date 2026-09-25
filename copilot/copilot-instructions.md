@@ -94,10 +94,19 @@ the design has to be; that is the next section.
 - For design work, reviews, and any decision with more than one credible option, use the
   `design-code-change` skill.
 
-## Code comments
+## Naming and code comments
 
 - Prefer clear naming and structure. Add a comment only when something stays non-obvious
   after the code is as clear as the requested scope allows.
+- Write names and comments the way you would say them out loud. The failure is not
+  vagueness; it is a literary register that is grammatical, accurate, and unspoken, lifted
+  from a design document. Name the thing rather than one hypothetical instance of it, keep
+  to one possessive at most, and use the plain verb where one exists.
+- Say what happens, not the machinery behind it. A comment or name that re-derives the
+  mechanism is the tell: cut that clause and check whether it still says enough. It
+  normally says more.
+- Test names follow the same rules: `refused parents are not loaded`, never `a parent
+  conditional access refuses is left out of the items the page builds`.
 - Every explanatory comment needs a purpose from this list, or it gets deleted: an external
   constraint the reader cannot see from here, an invariant or ordering the types cannot
   express, a non-local hazard, a magic value with an external source, what a dense encoding
@@ -146,8 +155,8 @@ the design has to be; that is the next section.
   your change that you did not edit.
 - Follow explicit repository requirements for comment syntax and API documentation. Do not
   copy unnecessary comment density from surrounding code.
-- For the full rules, the patterns to reject, and worked rewrites, use the
-  `write-code-comments` skill.
+- For the full rules, the read-aloud test, the patterns to reject, and worked rewrites, use
+  the `write-code-comments` skill.
 
 ## React component documentation
 
@@ -169,8 +178,8 @@ the design has to be; that is the next section.
   name, the type, or the component description, and keep implementation detail
   (internal state, refs, memoization, render behavior) out of the contract.
 - Every deprecation uses `@deprecated` and names the replacement.
-- This tightens the general API documentation budget in the Code comments section
-  above, which exempts API docs from a length limit.
+- This tightens the general API documentation budget in the Naming and code comments
+  section above, which exempts API docs from a length limit.
 - For the grammar table, the tooling constraints, the patterns to reject, and worked
   rewrites, use the `write-react-component-docs` skill.
 
@@ -308,6 +317,8 @@ comparisons, investigations, findings summaries, and the report at the end of ev
   testing or linting tool.
 - Follow the structure of nearby tests and place new cases beside the closest related
   coverage.
+- Name a test as a sentence a person would say. The register rules in "Naming and code
+  comments" apply here too.
 - Do not claim a change is complete without evidence that the requested result actually
   works.
 
