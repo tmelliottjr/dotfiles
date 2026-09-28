@@ -181,6 +181,17 @@ install_eza() {
   fi
 }
 
+# --- uv -----------------------------------------------------
+install_uv() {
+  if command -v uvx >/dev/null 2>&1; then
+    ok "uv already installed"
+  else
+    info "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ok "uv installed to $HOME/.local/bin"
+  fi
+}
+
 # --- 1up MCP server -----------------------------------------
 register_1up_mcp() {
   local bin_path="$1"
@@ -250,6 +261,41 @@ install_1up() {
   fi
 
   register_1up_mcp "$gobin/1up"
+}
+
+# --- Qubot plugin -------------------------------------------
+install_qubot() {
+  if ! command -v copilot >/dev/null 2>&1; then
+    warn "Copilot CLI not found — skipping qubot (install from https://gh.io/copilot-install)"
+    return
+  fi
+
+  if copilot plugin marketplace list 2>/dev/null | grep -q "github/qubot"; then
+    ok "qubot marketplace already registered"
+  elif copilot plugin marketplace add github/qubot >/dev/null 2>&1; then
+    ok "Added the qubot marketplace"
+  else
+    # The marketplace is the private github/qubot repo, so git needs credentials for it.
+    warn "Could not add the qubot marketplace — check access with:"
+    warn "  git ls-remote https://github.com/github/qubot.git HEAD"
+    return
+  fi
+
+  if copilot plugin list 2>/dev/null | grep -q "qubot@qubot"; then
+    info "Updating the qubot plugin..."
+    if copilot plugin update qubot@qubot >/dev/null 2>&1; then
+      ok "qubot plugin updated"
+    else
+      warn "copilot plugin update qubot@qubot failed"
+    fi
+  else
+    info "Installing the qubot plugin..."
+    if copilot plugin install qubot@qubot >/dev/null 2>&1; then
+      ok "qubot plugin installed"
+    else
+      warn "copilot plugin install qubot@qubot failed"
+    fi
+  fi
 }
 
 # --- Symlinks -----------------------------------------------
@@ -369,7 +415,9 @@ main() {
   install_nvm
   install_fzf
   install_eza
+  install_uv
   install_1up
+  install_qubot
   create_symlinks
   setup_scripts
   set_default_shell

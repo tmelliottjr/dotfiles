@@ -94,6 +94,18 @@ GO_BIN_DIR="${GOBIN:-${GOPATH:-$HOME/go}/bin}"
 unset GO_BIN_DIR
 
 # ---------------------------------------------------------
+# uv
+# ---------------------------------------------------------
+# The qubot MCP servers run `uvx`, which the uv installer writes here.
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+
+# ---------------------------------------------------------
+# Copilot
+# ---------------------------------------------------------
+# The flags pre-approve Kusto and the table catalog, so queries do not prompt.
+alias qubot='copilot --agent qubot/qubot --allow-tool kusto-mcp --add-dir ~/.copilot/installed-plugins/qubot/qubot/'
+
+# ---------------------------------------------------------
 # fzf
 # ---------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

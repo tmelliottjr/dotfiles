@@ -55,9 +55,11 @@ your Copilot session afterward, since skills load at session start.
 5. Installs [NVM](https://github.com/nvm-sh/nvm)
 6. Installs [fzf](https://github.com/junegunn/fzf) (fuzzy finder)
 7. Installs [eza](https://eza.rocks/) (modern `ls`)
-8. Symlinks config files to `$HOME`
+8. Installs [uv](https://docs.astral.sh/uv/) (needed to launch the qubot MCP servers)
 9. Installs the [1up](https://github.com/github/1up) MCP server and registers it with Copilot CLI
-10. Sets zsh as the default shell
+10. Installs the [qubot](https://github.com/github/qubot) Copilot CLI plugin
+11. Symlinks config files to `$HOME`
+12. Sets zsh as the default shell
 
 ## macOS Apps
 
@@ -148,6 +150,43 @@ the server key, and some model providers reject tool names starting with a digit
 Requires Go and `jq`; the step is skipped with a warning if either is missing, and
 `go install` needs access to the private `github/1up` repo.
 
+### Qubot Plugin
+
+[qubot](https://github.com/github/qubot) is a Copilot CLI plugin that answers
+questions against GitHub's data warehouses. It ships the `qubot` agent, a
+data-query skill with a table catalog, and the Kusto and Trino MCP servers.
+
+`install.sh` registers `github/qubot` as a plugin marketplace and installs
+`qubot@qubot`, then updates it on every later run. Both the marketplace and the
+plugin come from the private `github/qubot` repo, so git needs credentials for
+it. Verify with:
+
+```bash
+git ls-remote https://github.com/github/qubot.git HEAD
+```
+
+If that fails, run `gh auth login` and `gh auth setup-git`.
+
+The MCP servers launch through `uvx`, which `.zshrc` puts on `PATH` from
+`~/.local/bin`. Start a session with the `qubot` alias:
+
+```bash
+qubot    # copilot --agent qubot/qubot --allow-tool kusto-mcp --add-dir ~/.copilot/installed-plugins/qubot/qubot/
+```
+
+The alias pre-approves the Kusto MCP server and the plugin directory so queries
+do not stop on permission prompts. Trino is not pre-approved: it needs Tailscale,
+which these dotfiles do not set up. To use it, follow the
+[Tailscale guide on TheHub](https://thehub.github.com/security/security-operations/tailscale/getting-started/)
+and add `--allow-tool trino-mcp`.
+
+The first query opens a browser for sign-in. Use your `<username>@githubazure.com`
+account, not `@github.com`. An authorization error naming tenant
+`72f988bf-86f1-41af-91ab-2d7cd011db47` means `az` cached your `@microsoft.com`
+identity; fix it with `az logout && az login`.
+
+Full setup and troubleshooting: [initial-setup.md](https://github.com/github/qubot/blob/main/docs/initial-setup.md#copilot-cli).
+
 ## Key Aliases
 
 ```bash
@@ -155,4 +194,5 @@ ls, ll, la, lt    # eza variants
 gs, ga, gc, gp, gl # git shortcuts
 reload             # re-source .zshrc
 new-cs             # spin up a github/github Codespace
+qubot              # start a Copilot CLI session with the qubot agent
 ```
