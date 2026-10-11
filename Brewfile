@@ -15,3 +15,4 @@ brew "tree-sitter-cli"
 brew "zoxide"
 
 cask "copilot-cli"
+cask "tailscale-app"
